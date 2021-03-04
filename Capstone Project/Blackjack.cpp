@@ -98,6 +98,15 @@ vector<int> Blackjack::get_houseHand() const
 
 bool Blackjack::hasBlackjack(vector<int> hand)
 {
+	if (hand[0] == 1 && hand[1] == 10)
+	{
+		return 1;
+	}
+	else if (hand[1] == 1 && hand[0] == 10)
+	{
+		return 1;
+	}
+	return 0;
 }
 
 void Blackjack::add_to_player(int card)
@@ -144,6 +153,5 @@ bool Blackjack::stand()
 Blackjack::Blackjack(double m, double b, int difficulty) : casino_game(m, b, difficulty)
 {
 	add_to_house(get_card()); add_to_house(get_card());
-	//add_to_player(get_card()); add_to_player(get_card());
-	add_to_player(1); add_to_player(1);
+	add_to_player(get_card()); add_to_player(get_card());
 }

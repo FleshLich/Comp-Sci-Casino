@@ -24,12 +24,18 @@
     <ClCompile Include="Blackjack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameOfLife_Imp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CasinoGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Blackjack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOfLife.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
