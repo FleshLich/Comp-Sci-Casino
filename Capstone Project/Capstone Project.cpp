@@ -39,9 +39,9 @@ int main()
 		while (casinoMenu)
 		{
 			system("CLS");
-			if (bGame.get_total(bGame.get_playerHand()) == 21)
+			if (bGame.get_playerHand()[0] == 1 && bGame)
 			{
-				cout << "You win!\n";
+				cout << "You have 21\n";
 				system("PAUSE");
 				break;
 			}
