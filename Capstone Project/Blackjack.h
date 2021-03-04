@@ -10,10 +10,12 @@ public:
 	// prints player card at index or all cards if index is -1
 	void print_playerCards(int index);
 
+	// prints house card at index or all cards if index is -1
+	void print_houseCards(int index);
+
 	void print_game();
 
 	// Returns a random number which will act as a card
-	// Parameter for what deck is being added to, 1 for player, 0 for house (used to determine ace)
 	int get_card();
 
 	// Gets the total of the hand passed through
@@ -22,6 +24,8 @@ public:
 	vector<int> get_playerHand() const;
 
 	vector<int> get_houseHand() const;
+
+	bool hasBlackjack(vector<int>);
 
 	// Adds card to player's hand
 	void add_to_player(int);
@@ -41,4 +45,6 @@ public:
 private:
 	vector<int> playerHand;
 	vector<int> houseHand;
+	int card_amounts[10][2] = { {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 4}, {7, 4}, {8, 4}, {9, 4}, {10, 12} };
+	bool stood = false;
 };

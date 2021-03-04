@@ -39,12 +39,6 @@ int main()
 		while (casinoMenu)
 		{
 			system("CLS");
-			if (bGame.get_total(bGame.get_playerHand()) > 21)
-			{
-				cout << "You lose!!\n";
-				system("PAUSE");
-				break;
-			}
 			if (bGame.get_total(bGame.get_playerHand()) == 21)
 			{
 				cout << "You win!\n";
@@ -59,20 +53,31 @@ int main()
 			switch (input)
 			{
 			case 1:
-				bGame.hit();
+				if (bGame.hit()) { cout << "You busted!\n"; system("PAUSE"); casinoMenu = false; };
 				break;
 			case 2:
-				if (bGame.stand())
+			{
+				bool stand = bGame.stand();
+				int index = 1;
+
+				while (index < bGame.get_houseHand().size() - 1)
 				{
-					cout << "\n\nYou win!\n";
+					cout << "\nHouse draws "; bGame.print_houseCards(index); cout << endl;
+					index++;
+					system("PAUSE");
 				}
-				else 
+				if (stand)
 				{
-					cout << "\n\nYou lose\n";
+					cout << "\nYou win!\n";
 				}
+				else
+				{
+					cout << "\nYou lose\n";
+				}
+				bGame.print_game();
 				system("PAUSE");
 				casinoMenu = false;
-				break;
+			}
 			default:
 				break;
 			}

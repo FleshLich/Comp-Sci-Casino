@@ -22,11 +22,29 @@ void Blackjack::print_playerCards(int index)
 	}
 }
 
+void Blackjack::print_houseCards(int index)
+{
+	if (index == -1)
+	{
+		for (int i = 0; i < houseHand.size(); i++)
+		{
+			(houseHand[i] == 1) ? cout << "Ace" : cout << houseHand[i];
+			cout << " ";
+		}
+	}
+	else
+	{
+		(houseHand[index] == 1) ? cout << "Ace" : cout << houseHand[index];
+		cout << " ";
+	}
+}
+
 void Blackjack::print_game()
 {
-	cout << "House's Card: " << get_houseHand()[0] << endl;
+	cout << "House's Card: "; stood ? print_houseCards(-1) : print_houseCards(0); cout << endl;
 	cout << "Your cards: "; print_playerCards(-1); cout << endl;
 	cout << "Your total: " << get_total(playerHand) << endl;
+	if (stood) { cout << "House's total: " << get_total(houseHand) << endl; }
 }
 
 int Blackjack::get_card()
@@ -35,6 +53,15 @@ int Blackjack::get_card()
 	
 	// Generate a number between 1 and 10
 	int card = rand() % 10 + 1;
+
+	if (card_amounts[card][1] > 0)
+	{
+		card_amounts[card][1]--;
+	}
+	else 
+	{
+		get_card();
+	}
 	return card;
 }
 
@@ -44,7 +71,7 @@ int Blackjack::get_total(vector<int> hand)
 	int aces = 0;
 	for(int i = 0; i < hand.size(); i++)
 	{
-		if (hand[i] == 1) 
+		if (hand[i] == 1 && total + 11 <= 21) 
 		{
 			aces++;
 			total += 11;
@@ -53,14 +80,9 @@ int Blackjack::get_total(vector<int> hand)
 		{
 			total += hand[i];
 		}
-		
+		if (aces > 0 && total > 21) { aces--; total -= 10; };
 	}
 
-	if(total > 21 && aces > 0)
-	{
-		// Subract 11, add 1
-		total -= 10 * aces;
-	}
 	return total;
 }
 
@@ -72,6 +94,10 @@ vector<int> Blackjack::get_playerHand() const
 vector<int> Blackjack::get_houseHand() const
 {
 	return houseHand;
+}
+
+bool Blackjack::hasBlackjack(vector<int> hand)
+{
 }
 
 void Blackjack::add_to_player(int card)
@@ -93,6 +119,7 @@ bool Blackjack::hit()
 bool Blackjack::stand()
 {
 	// TODO: Make friend function to handle ai so this function is not as long
+	stood = true;
 	switch (get_difficulty())
 	{
 	case 1:
@@ -100,9 +127,13 @@ bool Blackjack::stand()
 		{
 			add_to_house(get_card());
 		}
-		if (get_total(houseHand) >= 17)
+		if (get_total(houseHand) >= 17 && get_total(houseHand) <= 21)
 		{
-			return (get_total(houseHand) > get_total(playerHand) && get_total(houseHand) <= 21);
+			return (get_total(houseHand) < get_total(playerHand));
+		}
+		else 
+		{
+			return 1;
 		}
 		break;
 	default:
@@ -113,5 +144,6 @@ bool Blackjack::stand()
 Blackjack::Blackjack(double m, double b, int difficulty) : casino_game(m, b, difficulty)
 {
 	add_to_house(get_card()); add_to_house(get_card());
-	add_to_player(get_card()); add_to_player(get_card());
+	//add_to_player(get_card()); add_to_player(get_card());
+	add_to_player(1); add_to_player(1);
 }
