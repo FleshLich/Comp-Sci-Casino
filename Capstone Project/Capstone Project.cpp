@@ -25,6 +25,7 @@ int main()
 
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
+		gGame.init_array();
 
 		cout << "Welcome to the Casino of computer science!\n";
 		cout << "Input a number to go to one of the categories below!\n";
@@ -86,7 +87,6 @@ int main()
 					cout << "\nYou lose\n";
 					money -= bGame.get_bet();
 				}
-				cout << money;
 				bGame.print_game();
 				system("PAUSE");
 				casinoMenu = false;
@@ -97,7 +97,12 @@ int main()
 		}
 		while (gameOfLifeMenu)
 		{
-			cout << "";
+			// TODO: FIX WHATEVER IS WRONG WITH GAME OF LIFE
+			system("CLS");
+			gGame.print_game();
+			gGame.simulate_generation();
+			cout << "\n";
+			system("PAUSE");
 		}
 		input = NULL;
 	}
