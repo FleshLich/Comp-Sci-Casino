@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class game_of_life
 {
@@ -16,6 +17,12 @@ public:
 
 	// Simulates a generation based on the rules of Conway's game of life
 	void simulate_generation();
+
+	// Creates an txt file filled with zeroes based on game of life parameters
+	void create_blank_template();
+
+	// Sets life array to a template
+	void use_template(std::string);
 
 	game_of_life();
 private:

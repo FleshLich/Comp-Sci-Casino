@@ -1,4 +1,4 @@
 ﻿  GameOfLife_Imp.cpp
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(97,30): warning C4267:  'return': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(61,6): warning C4101:  'next_y': unreferenced local variable
-  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(99,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(63,6): warning C4101: 'next_y': unreferenced local variable
+  Capstone Project.vcxproj -> D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

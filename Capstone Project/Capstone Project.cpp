@@ -43,8 +43,9 @@ int main()
 			break;
 		default:
 			break;
+		
 		}
-
+		gGame.use_template("Blank Template.txt");
 		while (casinoMenu)
 		{
 			system("CLS");
@@ -97,7 +98,6 @@ int main()
 		}
 		while (gameOfLifeMenu)
 		{
-			// TODO: FIX WHATEVER IS WRONG WITH GAME OF LIFE
 			system("CLS");
 			gGame.print_game();
 			gGame.simulate_generation();
