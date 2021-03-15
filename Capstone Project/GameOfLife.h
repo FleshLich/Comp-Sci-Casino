@@ -1,6 +1,11 @@
 #pragma once
 #include <string>
 
+// NOTE: This game of life will vary majorly depending on how big the grid is 
+// Rather than killing cells that go out of bounds, the program instead has the cells wrap around to the other side
+// This means that patterns such as the R-pentomino will eventually die(rather than stabilize) because some of the cells will wrap around and disrupt the original formation
+// The best way to test this is to use things such as "still lifes", "Oscillators", or "Spaceships"
+// Wikipedia has some good patterns: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 class game_of_life
 {
 public:
@@ -29,4 +34,5 @@ private:
 	int** life_array;
 	int width = 20;
 	int height = 20;
+	int generationsSimulated = 0;
 };

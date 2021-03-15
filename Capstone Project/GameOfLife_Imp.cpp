@@ -18,8 +18,8 @@ void game_of_life::init_array()
 		{
 			srand((unsigned)time(0) + rand());
 
-			life_array[i][j] = rand() % 2;
-			/*life_array[i][j] = 0;
+			/*life_array[i][j] = rand() % 2;*/
+			life_array[i][j] = 0;
 			if (i == 3)
 			{
 				if (j == 7 || j == 8)
@@ -40,7 +40,7 @@ void game_of_life::init_array()
 				{
 					life_array[i][j] = 1;
 				}
-			}*/
+			}
 		}
 	}
 }
@@ -106,6 +106,7 @@ int** game_of_life::get_life_array() const
 
 void game_of_life::simulate_generation()
 {
+	generationsSimulated++;
 	vector<int> to_kill;
 	vector<int> to_live;
 	for (int i = 0; i < height; i++)
@@ -153,26 +154,30 @@ void game_of_life::create_blank_template()
 		{
 			tempFile << "0 ";
 		}
-		tempFile << endl;
+		if (i != height - 1) { tempFile << endl; }
 	}
 	tempFile.close();
 }
 
 void game_of_life::use_template(string file) 
 {
+	// TODO: Fix this dumb stuff
 	ifstream tempFile;
-	// https://www.youtube.com/watch?v=vuuICE_bGRo
-	cout << "\nREMOVE ME \n";
+	vector<int> tempVector;
 	tempFile.open(file);
 	string in;
+	string waste;
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; i < width; j++)
 		{
-			getline(tempFile, in, ' ');
-			life_array[i][j] = stoi(in);
+			//getline(tempFile, in, ' ');
+			////cout << in << " ";
+			////tempVector.push_back(stoi(in));
+			tempFile >> life_array[i][j];
 		}
 	}
+	tempVector.size();
 	tempFile.close();
 }
 

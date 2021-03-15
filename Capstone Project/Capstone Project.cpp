@@ -10,7 +10,15 @@
 
 using namespace std;
 
+void displayMenu() 
+{
+	cout << "Welcome to the Casino of computer science!\n";
+	cout << "Input a number to go to one of the categories below!\n";
+	cout << "1. Games\n2. Simulations\n";
+}
 
+
+// TODO: Make file input system less sensitive
 int main()
 {
 	bool mainMenu = true;
@@ -26,12 +34,17 @@ int main()
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
 		gGame.init_array();
+		//gGame.create_blank_template();
 
-		cout << "Welcome to the Casino of computer science!\n";
-		cout << "Input a number to go to one of the categories below!\n";
-		cout << "1. Games\n2. Simulations\n";
+		displayMenu();
 
-		cin >> input;
+		while (!(cin >> input))
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			system("CLS");
+			displayMenu();
+		}
 
 		switch (input)
 		{
