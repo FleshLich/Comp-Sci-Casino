@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include "GameOfLife.h"
+#include "String Utilities.h"
 
 using namespace std;
 
@@ -104,6 +105,11 @@ int** game_of_life::get_life_array() const
 	return life_array;
 }
 
+int game_of_life::get_amount_simulated() const
+{
+	return generationsSimulated;
+}
+
 void game_of_life::simulate_generation()
 {
 	generationsSimulated++;
@@ -161,23 +167,17 @@ void game_of_life::create_blank_template()
 
 void game_of_life::use_template(string file) 
 {
-	// TODO: Fix this dumb stuff
 	ifstream tempFile;
-	vector<int> tempVector;
 	tempFile.open(file);
-	string in;
-	string waste;
+	vector<string> file_vector = StringUtilities::split(StringUtilities::trim(StringUtilities::file_to_string(&tempFile)), "\n");
 	for (int i = 0; i < height; i++)
 	{
-		for (int j = 0; i < width; j++)
+		vector<string> row = StringUtilities::split(file_vector[i], " ");
+		for (int j = 0; j < width; j++)
 		{
-			//getline(tempFile, in, ' ');
-			////cout << in << " ";
-			////tempVector.push_back(stoi(in));
-			tempFile >> life_array[i][j];
+			life_array[i][j] = stoi(row[j]);
 		}
 	}
-	tempVector.size();
 	tempFile.close();
 }
 

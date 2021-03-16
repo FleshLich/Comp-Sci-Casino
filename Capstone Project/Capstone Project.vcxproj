@@ -148,6 +148,7 @@
     <ClInclude Include="Blackjack.h" />
     <ClInclude Include="CasinoGame.h" />
     <ClInclude Include="GameOfLife.h" />
+    <ClInclude Include="String Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

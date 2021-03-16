@@ -20,6 +20,8 @@ public:
 
 	int** get_life_array() const;
 
+	int get_amount_simulated() const;
+
 	// Simulates a generation based on the rules of Conway's game of life
 	void simulate_generation();
 

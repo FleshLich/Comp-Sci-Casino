@@ -1,12 +1,18 @@
 // Assignment: Capstone Project
 // Created by Joshua Roberts
-// Date: 
+// Date:
+
+// https://stackoverflow.com/questions/7035023/stdmax-expected-an-identifier/7035078
+#define NOMINMAX
 
 #include <iostream>
 #include <string>
-#include <stdlib.h>
+#include <cstdlib>
+#include <Windows.h>
 #include "Blackjack.h"
 #include "GameOfLife.h"
+#include "String Utilities.h"
+
 
 using namespace std;
 
@@ -25,6 +31,7 @@ int main()
 	bool casinoMenu = false;
 	bool gameOfLifeMenu = false;
 	int input;
+	string sInput;
 	double money = 1000;
 
 	while (mainMenu)
@@ -34,7 +41,6 @@ int main()
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
 		gGame.init_array();
-		//gGame.create_blank_template();
 
 		displayMenu();
 
@@ -58,7 +64,6 @@ int main()
 			break;
 		
 		}
-		gGame.use_template("Blank Template.txt");
 		while (casinoMenu)
 		{
 			system("CLS");
@@ -112,10 +117,59 @@ int main()
 		while (gameOfLifeMenu)
 		{
 			system("CLS");
-			gGame.print_game();
-			gGame.simulate_generation();
-			cout << "\n";
-			system("PAUSE");
+			cout << "Welcome to Conway's Game of Life!\n";
+			cout << "Here you can explore the cellular automaton devised by John Conway\n";
+			cout << "1. Simulate X amount of generations\n";
+			cout << "2. Simulate until exited\n";
+			cout << "3. Create a blank template\n";
+			cout << "4. Load a custom template\n";
+			cout << "5. Notes and Help\n";
+			cout << "6. Back\n";
+
+			cout << "Choice: ";
+			while (!(cin >> input))
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+
+			switch (input)
+			{
+			case 1:
+				break;
+			case 2:
+				while (!(GetKeyState('X') & 0x8000))
+				{
+					system("CLS");
+					gGame.print_game();
+					cout << "\nGenerations simulated: " << gGame.get_amount_simulated() << "\n";
+					cout << "Rapidly press X to exit\n";
+					gGame.simulate_generation();
+					Sleep(500);
+				}
+				break;
+			case 3:
+				gGame.create_blank_template();
+				break;
+			case 4:
+				system("CLS");
+				cout << "Enter the EXACT name of the template file: ";
+				cin.ignore();
+				getline(cin, sInput);
+				gGame.use_template(sInput);
+				break;
+			case 5:
+				system("CLS");
+				cout << "This game of life will vary majorly depending on how big the grid is. \nRather than killing cells that go out of bounds, the program instead has the cells wrap around to the other side. \nThis means that patterns such as the R-pentomino will eventually die(rather than stabilize) because some of the cells will wrap around and disrupt the original formation. \nThe best way to test this is to use things such as \"still lifes\", \"Oscillators\", or \"Spaceships\"\n Wikipedia has some good patterns: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life \n";
+				system("PAUSE");
+				break;
+			case 6:
+				gameOfLifeMenu = false;
+				break;
+			default:
+				break;
+			}
+
 		}
 		input = NULL;
 	}
