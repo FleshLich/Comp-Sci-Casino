@@ -50,6 +50,22 @@ public:
 		return split;
 	}
 
+	static string replace(string s, string to_replace, string replace_with = "")
+	{
+		string::size_type n = 0;
+		while ((n = s.find(to_replace, n)) != string::npos)
+		{
+			s.replace(n, to_replace.size(), replace_with);
+			n += replace_with.size();
+		}
+		return s;
+	}
+
+	static string replace_without_move(string s, string to_replace, string replace_with = " ")
+	{
+
+	}
+
 	// Removes any sort of whitespace from the beginning and end of a string
 	static string trim(string s)
 	{

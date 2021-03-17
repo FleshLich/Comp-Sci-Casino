@@ -17,15 +17,9 @@
 
 using namespace std;
 
-void displayMenu() 
-{
-	cout << "Welcome to the Casino of computer science!\n";
-	cout << "Input a number to go to one of the categories below!\n";
-	cout << "1. Games\n2. Simulations\n";
-}
 
-
-// TODO: Implement File Template parser/variable replacer
+// TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
+// TODO: Work out the kinks of file template and do some QA
 int main()
 {
 	bool mainMenu = true;
@@ -39,18 +33,20 @@ int main()
 	{
 		system("CLS");
 
+		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
+
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
 		gGame.init_array();
 
-		displayMenu();
+		cout << mainMenu.get_parsed_menu_string();
 
 		while (!(cin >> input))
 		{
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			system("CLS");
-			displayMenu();
+			cout << mainMenu.get_parsed_menu_string();
 		}
 
 		switch (input)
@@ -137,6 +133,14 @@ int main()
 			switch (input)
 			{
 			case 1:
+				while (true)
+				{
+					system("CLS");
+					gGame.print_game();
+					cout << "\nGenerations simulated: " << gGame.get_amount_simulated() << "\n";
+					gGame.simulate_generation();
+					system("PAUSE");
+				}
 				break;
 			case 2:
 				while (!(GetKeyState('X') & 0x8000))

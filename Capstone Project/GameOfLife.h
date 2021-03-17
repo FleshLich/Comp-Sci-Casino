@@ -34,7 +34,7 @@ public:
 	game_of_life();
 private:
 	int** life_array;
-	int width = 20;
+	int width = 60;
 	int height = 20;
 	int generationsSimulated = 0;
 };

@@ -43,11 +43,11 @@ void game_of_life::print_game()
 			if (life_array[i][j] == 1)
 			{
 				SetConsoleTextAttribute(hConsole, 4 + 4 * 16);
-				cout << "X ";
+				cout << "X";
 			}
 			else
 			{
-				cout << "0 ";
+				cout << "0";
 			}
 		}
 	}

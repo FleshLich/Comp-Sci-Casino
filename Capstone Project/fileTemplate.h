@@ -8,7 +8,7 @@ using namespace std;
 class fileTemplate
 {
 public:
-	void set_template(ifstream);
+	void set_template(string);
 
 	void set_variables();
 
@@ -20,11 +20,13 @@ public:
 
 	string get_menu_string() const;
 
+	string get_parsed_menu_string() const;
+
 	vector<string> get_variables() const;
 
 	vector<string> get_var_values() const;
 
-	fileTemplate(string);
+	fileTemplate(string, vector<string>);
 private: 
 	ifstream file;
 	string file_name;
