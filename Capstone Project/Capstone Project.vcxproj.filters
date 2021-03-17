@@ -27,6 +27,9 @@
     <ClCompile Include="GameOfLife_Imp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fileTemplate_Imp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CasinoGame.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="String Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

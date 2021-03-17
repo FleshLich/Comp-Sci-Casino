@@ -1,9 +1,16 @@
+﻿#define NC "\e[0m"
+#define RED "\e[0;31m"
+#define GRN "\e[0;32m"
+#define CYN "\e[0;36m"
+#define REDB "\e[41m"
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
 #include <sstream>
+#include <Windows.h>
 #include "GameOfLife.h"
 #include "String Utilities.h"
 
@@ -19,43 +26,32 @@ void game_of_life::init_array()
 		{
 			srand((unsigned)time(0) + rand());
 
-			/*life_array[i][j] = rand() % 2;*/
-			life_array[i][j] = 0;
-			if (i == 3)
-			{
-				if (j == 7 || j == 8)
-				{
-					life_array[i][j] = 1;
-				}
-			}
-			if (i == 4)
-			{
-				if (j == 6 || j == 7)
-				{
-					life_array[i][j] = 1;
-				}
-			}
-			if (i == 5)
-			{
-				if (j == 7)
-				{
-					life_array[i][j] = 1;
-				}
-			}
+			life_array[i][j] = rand() % 2;
 		}
 	}
 }
 
 void game_of_life::print_game()
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	for (int i = 0; i < height; i++)
 	{
 		(i == 0) ? cout << "" : cout << "\n";
 		for (int j = 0; j < width; j++)
 		{
-			(life_array[i][j] == 1) ? cout << "X " : cout << "0 ";
+			SetConsoleTextAttribute(hConsole, 15);
+			if (life_array[i][j] == 1)
+			{
+				SetConsoleTextAttribute(hConsole, 4 + 4 * 16);
+				cout << "X ";
+			}
+			else
+			{
+				cout << "0 ";
+			}
 		}
 	}
+	SetConsoleTextAttribute(hConsole, 15);
 }
 
 int game_of_life::get_num_neighbors(int x, int y)

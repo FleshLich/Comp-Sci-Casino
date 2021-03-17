@@ -1,5 +1,7 @@
-﻿  Capstone Project.cpp
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(41,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(45,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(46,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
-  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+﻿  GameOfLife_Imp.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(41,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(45,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(46,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(96,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(60,6): warning C4101: 'next_y': unreferenced local variable
+  Capstone Project.vcxproj -> D:\Misc Programming Projects\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

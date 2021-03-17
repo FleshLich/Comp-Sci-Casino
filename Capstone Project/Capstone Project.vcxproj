@@ -142,11 +142,13 @@
     <ClCompile Include="Blackjack.cpp" />
     <ClCompile Include="Capstone Project.cpp" />
     <ClCompile Include="CasinoGame_Imp.cpp" />
+    <ClCompile Include="fileTemplate_Imp.cpp" />
     <ClCompile Include="GameOfLife_Imp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blackjack.h" />
     <ClInclude Include="CasinoGame.h" />
+    <ClInclude Include="fileTemplate.h" />
     <ClInclude Include="GameOfLife.h" />
     <ClInclude Include="String Utilities.h" />
   </ItemGroup>

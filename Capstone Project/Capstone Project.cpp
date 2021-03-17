@@ -12,6 +12,7 @@
 #include "Blackjack.h"
 #include "GameOfLife.h"
 #include "String Utilities.h"
+#include "fileTemplate.h"
 
 
 using namespace std;
@@ -24,7 +25,7 @@ void displayMenu()
 }
 
 
-// TODO: Make file input system less sensitive
+// TODO: Implement File Template parser/variable replacer
 int main()
 {
 	bool mainMenu = true;
