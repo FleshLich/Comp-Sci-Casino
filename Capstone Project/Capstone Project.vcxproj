@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Blackjack.cpp" />
     <ClCompile Include="Capstone Project.cpp" />
     <ClCompile Include="CasinoGame_Imp.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="GameOfLife_Imp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Blackjack.h" />
     <ClInclude Include="CasinoGame.h" />
     <ClInclude Include="fileTemplate.h" />
