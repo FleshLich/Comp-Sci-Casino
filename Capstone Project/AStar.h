@@ -1,12 +1,15 @@
 #pragma once
 #include <vector>
+#include <string>
 
 using namespace std;
 
 class AStarPathfinding
 {
 public:
-	void generate_map();
+	void init_map();
+
+	void generate_maze();
 
 	void generate_path();
 
@@ -15,6 +18,8 @@ public:
 	vector<int> get_start() const;
 
 	vector<int> get_end() const;
+
+	string get_map_string() const;
 
 	AStarPathfinding();
 private:

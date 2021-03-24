@@ -13,6 +13,7 @@
 #include "GameOfLife.h"
 #include "String Utilities.h"
 #include "fileTemplate.h"
+#include "AStar.h"
 
 
 using namespace std;
@@ -37,6 +38,7 @@ int main()
 
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
+		AStarPathfinding map;
 		gGame.init_array();
 
 		cout << mainMenu.get_parsed_menu_string();
@@ -56,6 +58,10 @@ int main()
 			break;
 		case 2:
 			gameOfLifeMenu = true;
+			break;
+		case 3: 
+			cout << map.get_map_string();
+			system("PAUSE");
 			break;
 		default:
 			break;
