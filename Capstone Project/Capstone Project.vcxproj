@@ -145,6 +145,7 @@
     <ClCompile Include="CasinoGame_Imp.cpp" />
     <ClCompile Include="fileTemplate_Imp.cpp" />
     <ClCompile Include="GameOfLife_Imp.cpp" />
+    <ClCompile Include="MazeGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="CasinoGame.h" />
     <ClInclude Include="fileTemplate.h" />
     <ClInclude Include="GameOfLife.h" />
+    <ClInclude Include="MazeGenerator.h" />
     <ClInclude Include="String Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

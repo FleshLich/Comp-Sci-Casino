@@ -33,6 +33,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
+		Maze temp;
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
 
@@ -60,7 +61,15 @@ int main()
 			gameOfLifeMenu = true;
 			break;
 		case 3: 
-			cout << map.get_map_string();
+			temp.hunt_kill_generate();
+			cout << endl;
+			for (int i = 0; i < temp.get_tree().size(); i++)
+			{
+				if (temp.get_tree()[i].visited)
+				{
+					cout << temp.get_tree()[i].x << " " << temp.get_tree()[i].y << " " << temp.get_tree()[i].visited_from << endl;
+				}
+			}
 			system("PAUSE");
 			break;
 		default:
