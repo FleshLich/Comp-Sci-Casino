@@ -37,7 +37,9 @@ void AStarPathfinding::init_map()
 		vector<char> row;
 		for (int x = 0; x < width; x++)
 		{
-			row.push_back('#');
+			if (y % 2 == 0) { row.push_back('#'); continue; };
+			if (x % 2 == 0) { row.push_back('#'); continue; };
+			row.push_back(' ');
 
 		}
 		map.push_back(row);
@@ -46,35 +48,7 @@ void AStarPathfinding::init_map()
 
 void AStarPathfinding::generate_maze()
 {
-	vector<vector<int>> stack_path;
-	stack_path.push_back(startPos);
 
-	while (!stack_path.empty())
-	{
-		vector<int> cell = stack_path[stack_path.size() - 1];
-		vector<vector<int>> neighbors;
-		int x = stack_path[stack_path.size() - 1][0];
-		int y = stack_path[stack_path.size() - 1][1];
-
-		if (y > 0) neighbors.push_back({ x, y - 1 });
-		if (y < map.size() - 1) neighbors.push_back({x, y + 1});
-		if (x > 0) neighbors.push_back({ x - 1, y });
-		if (x < map[0].size() - 1) neighbors.push_back({ x + 1, y });
-
-		if (!neighbors.empty())
-		{
-			srand((unsigned)time(0) + rand());
-			int cell = rand() % neighbors.size();
-
-			for (int i = 0; i < neighbors.size(); i++)
-			{
-				map[y][x] = 'X';
-
-				if (i != cell) stack_path.push_back(neighbors[i]);
-			}
-			stack_path.push_back(neighbors[cell]);
-		}
-	}
 }
 
 void AStarPathfinding::generate_path() 
