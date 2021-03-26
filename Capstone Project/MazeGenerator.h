@@ -37,6 +37,8 @@ public:
 
 	vector<cell> get_tree() const;
 
+	vector<int> get_start() const;
+
 	int get_width() const;
 
 	int get_height() const;
@@ -45,6 +47,7 @@ public:
 private:
 	int width;
 	int height;
+	vector<int> startPos;
 
 	vector<cell> tree;
 };

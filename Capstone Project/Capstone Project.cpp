@@ -36,7 +36,8 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze temp(10,10);
+		Maze temp(11,11);
+		AStarPathfinding temp2;
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
 
@@ -64,20 +65,10 @@ int main()
 			gameOfLifeMenu = true;
 			break;
 		case 3: 
-			temp.reverse_backtrack_generate();
+			//temp.reverse_backtrack_generate();
 			cout << endl;
-			//for (int i = 0; i < temp.get_tree().size(); i++)
-			//{
-			//	/*for (int j = 0; j < temp.get_neighbors(temp.get_tree()[i]).size(); j++)
-			//	{
-			//		cout << temp.get_neighbors(temp.get_tree()[i])[j].x << " " << temp.get_neighbors(temp.get_tree()[i])[j].y << " " << j <<  endl;
-			//	}*/
-			//	if (temp.get_tree()[i].visited)
-			//	{
-			//		cout << temp.get_tree()[i].x << " " << temp.get_tree()[i].y << " " << endl;//StringUtilities::cell_connected_to_string(temp.get_tree()[i]) << endl;
-			//	}
-			//}
-			temp.print_map();
+			//temp.print_map();
+			temp2.generate_path();
 			system("PAUSE");
 			break;
 		default:

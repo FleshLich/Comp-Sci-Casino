@@ -62,6 +62,7 @@ void Maze::reverse_backtrack_generate()
 	
 	int y = heightGen(mt);
 	int x = widthGen(mt);
+	startPos = { x, y };
 	
 	vector<cell*> track;
 	cell *current = get_cell_by_pos(x, y);
@@ -97,7 +98,7 @@ vector<vector<char>> Maze::tree_to_map()
 	cell cur_cell;
 	for (int y = 0; y < (height * 2) - 1; y++)
 	{
-		for (int x = 0; x < (width * 2) - 2; x++)
+		for (int x = 0; x < (width * 2) - 1; x++)
 		{
 			if (y % 2 != 0)
 			{
@@ -248,6 +249,11 @@ int Maze::get_width() const
 int Maze::get_height() const
 {
 	return height;
+}
+
+vector<int> Maze::get_start() const
+{
+	return startPos;
 }
 
 Maze::Maze(int w, int h)

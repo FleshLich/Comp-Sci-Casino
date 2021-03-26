@@ -1,7 +1,7 @@
-﻿  MazeGenerator.cpp
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(71,94): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+﻿  AStar.cpp
+D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\AStar.cpp(35,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
           with
           [
               _Ty=int
           ]
-  Capstone Project.vcxproj -> D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\AStar.cpp(99): error C4700: uninitialized local variable 'temp_node' used
