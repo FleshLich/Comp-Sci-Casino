@@ -4,8 +4,11 @@
 #include <regex>
 #include <fstream>
 #include <vector>
+#include "MazeGenerator.h"
 
 using namespace std;
+
+extern struct cell;
 
 class StringUtilities
 {
@@ -28,6 +31,32 @@ public:
 		for (int i = 0; i < v.size(); i++)
 		{
 			s.append(v[i] + seperator);
+		}
+		return s;
+	}
+
+	static string cell_connected_to_string(cell c)
+	{
+		string temp = "";
+		for (int i = 0; i < c.connected_to.size(); i++)
+		{
+			temp += c.connected_to[i]->x + " " + c.connected_to[i]->y;
+			temp += " ";
+		}
+		return temp;
+	}
+
+	static string maze_to_string(vector<vector<char>> m)
+	{
+		string s;
+		for (int i = 0; i < m.size(); i++)
+		{
+			for (int j = 0; j < m[i].size(); j++)
+			{
+				s += m[i][j];
+				s += " ";
+			}
+			s += "\n";
 		}
 		return s;
 	}

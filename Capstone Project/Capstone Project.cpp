@@ -21,6 +21,9 @@ using namespace std;
 
 // TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
 // TODO: Work out the kinks of file template and do some QA
+// TODO: Fix weird maze bugs
+// TODO: Create Game
+// TODO: Make DLL injector with a dll that simply creates a box saying hello and one that adds cheats to the game
 int main()
 {
 	bool mainMenu = true;
@@ -33,7 +36,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze temp;
+		Maze temp(10,10);
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
 
@@ -61,15 +64,20 @@ int main()
 			gameOfLifeMenu = true;
 			break;
 		case 3: 
-			temp.hunt_kill_generate();
+			temp.reverse_backtrack_generate();
 			cout << endl;
-			for (int i = 0; i < temp.get_tree().size(); i++)
-			{
-				if (temp.get_tree()[i].visited)
-				{
-					cout << temp.get_tree()[i].x << " " << temp.get_tree()[i].y << " " << temp.get_tree()[i].visited_from << endl;
-				}
-			}
+			//for (int i = 0; i < temp.get_tree().size(); i++)
+			//{
+			//	/*for (int j = 0; j < temp.get_neighbors(temp.get_tree()[i]).size(); j++)
+			//	{
+			//		cout << temp.get_neighbors(temp.get_tree()[i])[j].x << " " << temp.get_neighbors(temp.get_tree()[i])[j].y << " " << j <<  endl;
+			//	}*/
+			//	if (temp.get_tree()[i].visited)
+			//	{
+			//		cout << temp.get_tree()[i].x << " " << temp.get_tree()[i].y << " " << endl;//StringUtilities::cell_connected_to_string(temp.get_tree()[i]) << endl;
+			//	}
+			//}
+			temp.print_map();
 			system("PAUSE");
 			break;
 		default:

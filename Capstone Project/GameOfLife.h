@@ -14,7 +14,7 @@ public:
 
 	void print_game();
 
-	// returns number of neigbors adjacent to cell
+	// returns number of neighbors adjacent to cell
 	// Pass in two integers representing position of cell in 2d array
 	int get_num_neighbors(int, int);
 
