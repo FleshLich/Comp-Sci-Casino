@@ -7,12 +7,13 @@
 #include "MazeGenerator.h"
 
 // Pseudo-Constructor for cell struct
-cell create_cell(int x, int y, char visited_from = NULL, bool visited = false)
+cell create_cell(int x, int y, vector<cell*> c_to = {}, bool visited = false)
 {
 	cell temp;
 	temp.x = x;
 	temp.y = y;
 	temp.visited = visited;
+	temp.connected_to = c_to;
 	return temp;
 }
 
@@ -51,7 +52,6 @@ void Maze::print_map()
 	}
 }
 
-// https://weblog.jamisbuck.org/2011/1/24/maze-generation-hunt-and-kill-algorithm
 void Maze::reverse_backtrack_generate()
 {
 

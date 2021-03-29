@@ -1,7 +1,13 @@
-﻿  AStar.cpp
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\AStar.cpp(35,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=int
-          ]
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\AStar.cpp(99): error C4700: uninitialized local variable 'temp_node' used
+﻿  Capstone Project.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091:  'extern ': ignored on left of 'cell' when no variable is declared
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+  MazeGenerator.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         with
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         [
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:             _Ty=int
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         ]
+  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

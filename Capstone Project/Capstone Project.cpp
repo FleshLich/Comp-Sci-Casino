@@ -36,7 +36,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze temp(11,11);
+		Maze maze(11,11);
 		AStarPathfinding temp2;
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
@@ -65,11 +65,13 @@ int main()
 			gameOfLifeMenu = true;
 			break;
 		case 3: 
-			//temp.reverse_backtrack_generate();
-			cout << endl;
-			//temp.print_map();
-			temp2.generate_path();
+			maze.reverse_backtrack_generate();
+			maze.print_map();
 			system("PAUSE");
+			break;
+		case 4:
+			temp2.generate_path();
+			temp2.print_path_map();
 			break;
 		default:
 			break;
