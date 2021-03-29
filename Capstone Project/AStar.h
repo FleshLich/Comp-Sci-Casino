@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <random>
 #include "MazeGenerator.h"
 
 using namespace std;
@@ -22,6 +21,8 @@ public:
 	void init_map();
 
 	void print_path_map();
+
+	void generate_start();
 
 	void generate_end();
 

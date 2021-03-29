@@ -21,7 +21,9 @@ using namespace std;
 
 // TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
 // TODO: Work out the kinks of file template and do some QA
-// TODO: Fix weird maze bugs
+// TODO: Make sure pathfinding starting point and end point are actually possible to get to when they are user entered
+// TODO: Maybe make get random point node(returns regular x y) and get random point (returns x y offset by map), maybe make member variables that contain visited and unvisited nodes?
+// TODO: Make sure all maze sizes work(5 by 5 was creating weird results)
 // TODO: Create Game
 // TODO: Make DLL injector with a dll that simply creates a box saying hello and one that adds cheats to the game
 int main()
@@ -36,7 +38,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze maze(20,20);
+		Maze maze(6,6);
 		AStarPathfinding temp2;
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
@@ -71,7 +73,9 @@ int main()
 			break;
 		case 4:
 			temp2.generate_path();
+			cout << endl;
 			temp2.print_path_map();
+			system("PAUSE");
 			break;
 		default:
 			break;

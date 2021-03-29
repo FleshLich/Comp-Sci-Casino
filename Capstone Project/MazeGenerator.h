@@ -43,7 +43,7 @@ public:
 
 	int get_height() const;
 
-	Maze(int w = 10, int h = 10);
+	Maze(int w = 5, int h = 5);
 private:
 	int width;
 	int height;

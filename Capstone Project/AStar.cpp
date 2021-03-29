@@ -26,16 +26,44 @@ void AStarPathfinding::print_path_map()
 	{
 		char_map[fin_path[i][1]][fin_path[i][0]] = 'O';
 	}
+	for (int y = 0; y < char_map.size(); y++)
+	{
+		for (int x = 0; x < char_map[y].size(); x++)
+		{
+			cout << char_map[y][x] << " ";
+		}
+		cout << endl;
+	}
+	cout << startPos[0] << " " << startPos[1] << endl;
+	cout << endPos[0] << " " << endPos[1] << endl;
+}
+
+void AStarPathfinding::generate_start()
+{
+	srand((unsigned)time(0));
+
+	// TODO: MAKE SURE THIS IS ACCOUNTING FOR THE DIFFERENT X AND Y POSITIONS ON THE MAP
+	int num = 0;
+	while (!map.get_tree()[num].visited)
+	{
+		srand((unsigned)time(0) + rand());
+		num = rand() % map.get_height();
+	}
+	startPos = { (map.get_tree()[num].x * 2) - (map.get_tree()[num].x > 0) ? 1 : 0, (map.get_tree()[num].y * 2) - (map.get_tree()[num].y > 0) ? 1 : 0 };
 }
 
 void AStarPathfinding::generate_end()
 {
-	random_device rd;
-	mt19937 mt(rd());
-	uniform_int_distribution<int> posGen(0, map.get_tree().size());
+	srand((unsigned)time(0));
 
-	int num = posGen(mt);
-	endPos = { map.get_tree()[num].x, map.get_tree()[num].y };
+	// TODO: MAKE SURE THIS IS ACCOUNTING FOR THE DIFFERENT X AND Y POSITIONS ON THE MAP
+	int num = rand() % map.get_height();
+	while (!map.get_tree()[num].visited)
+	{
+		srand((unsigned)time(0) + rand());
+		num = rand() % map.get_height();
+	}
+	endPos = { (map.get_tree()[num].x * 2) - (map.get_tree()[num].x > 0) ? 1 : 0, (map.get_tree()[num].y * 2) - (map.get_tree()[num].y > 0) ? 1 : 0 };
 }
 
 void AStarPathfinding::generate_path() 
@@ -46,9 +74,10 @@ void AStarPathfinding::generate_path()
 	vector<node*> to_visit = { &start_node };
 	vector<node*> visited;
 	int outer_iterations = 0;
-	int max_iterations = 1000; // Make this dynamic
+	int max_iterations =  map.tree_to_map().size() * map.tree_to_map()[0].size(); // Make this dynamic
 
 	vector<vector<int>> movements = { {1,0},{0,1},{-1,0},{0,-1} };
+	vector<node*> nodes;;
 	while (!to_visit.empty())
 	{
 		outer_iterations++;
@@ -66,6 +95,9 @@ void AStarPathfinding::generate_path()
 
 		if (outer_iterations > max_iterations)
 		{
+			current;
+			end_node;
+			cout << "MAX ITERATION REACHED";
 			return;
 		}
 
@@ -78,7 +110,7 @@ void AStarPathfinding::generate_path()
 			while (cur_path->parent != nullptr)
 			{
 				path.push_back(cur_path->position);
-				cur_path = current->parent;
+				cur_path = cur_path->parent;
 			}
 
 			fin_path = path;
@@ -94,15 +126,18 @@ void AStarPathfinding::generate_path()
 			if (cur_pos[0] > map.tree_to_map()[0].size() - 1 || cur_pos[0] < 0 || cur_pos[1] > map.tree_to_map().size() - 1 || cur_pos[1] < 0) continue;
 			if (map.tree_to_map()[cur_pos[1]][cur_pos[0]] != 'X') continue;
 
-			node new_node = create_node(current, cur_pos);
-			children.push_back(&new_node); // Figure out why pointer is not passing position field correctly
+			node* new_node = new node;
+			new_node->parent = current;
+			new_node->position = cur_pos;
+			nodes.push_back(new_node);
+			children.push_back(new_node); // Figure out why pointer is not passing position field correctly
 		}
 
 		for (int i = 0; i < children.size(); i++)
 		{
 			for (int j = 0; j < visited.size(); j++)
 			{
-				if (children[i] == visited[i]) continue;
+				if (children[i] == visited[j]) continue;
 			}
 
 			children[i]->g = current->g + 1;
@@ -114,11 +149,15 @@ void AStarPathfinding::generate_path()
 			//continue
 			for (int j = 0; j < to_visit.size(); j++)
 			{
-				if (children[i] == to_visit[i] && children[i]->g > to_visit[i]->g) continue;
+				if (children[i] == to_visit[j] && children[i]->g > to_visit[j]->g) continue;
 			}
 
 			to_visit.push_back(children[i]);
 		}
+	}
+	for (int i = 0; i < nodes.size(); i++)
+	{
+		delete nodes[i];
 	}
 }
 
@@ -150,7 +189,7 @@ AStarPathfinding::AStarPathfinding(Maze* m, vector<int> start, vector<int> end)
 
 	if (start[0] == -1)
 	{
-		startPos = map.get_start();
+		generate_start();
 	}
 	else
 	{
