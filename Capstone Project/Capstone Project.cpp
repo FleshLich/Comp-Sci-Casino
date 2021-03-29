@@ -36,7 +36,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze maze(11,11);
+		Maze maze(20,20);
 		AStarPathfinding temp2;
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
@@ -164,7 +164,7 @@ int main()
 					system("CLS");
 					gGame.print_game();
 					cout << "\nGenerations simulated: " << gGame.get_amount_simulated() << "\n";
-					cout << "Rapidly press X to exit\n";
+					cout << "Hold X to exit\n";
 					gGame.simulate_generation();
 					Sleep(500);
 				}
