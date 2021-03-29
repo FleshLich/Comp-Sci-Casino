@@ -13,19 +13,22 @@
 #include "GameOfLife.h"
 #include "String Utilities.h"
 #include "fileTemplate.h"
-#include "AStar.h"
-
 
 using namespace std;
 
 
 // TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
 // TODO: Work out the kinks of file template and do some QA
+
 // TODO: Make sure pathfinding starting point and end point are actually possible to get to when they are user entered
+// TODO: Redo entire pathfinding module
+
 // TODO: Maybe make get random point node(returns regular x y) and get random point (returns x y offset by map), maybe make member variables that contain visited and unvisited nodes?
-// TODO: Make sure all maze sizes work(5 by 5 was creating weird results)
+
 // TODO: Create Game
 // TODO: Make DLL injector with a dll that simply creates a box saying hello and one that adds cheats to the game
+
+// TODO: Work on menu functionality
 int main()
 {
 	bool mainMenu = true;
@@ -38,14 +41,13 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze maze(6,6);
-		AStarPathfinding temp2;
+		Maze maze(5,6);
 
 		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
 
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
-		AStarPathfinding map;
+		//AStarPathfinding map;
 		gGame.init_array();
 
 		cout << mainMenu.get_parsed_menu_string();
@@ -66,16 +68,17 @@ int main()
 		case 2:
 			gameOfLifeMenu = true;
 			break;
-		case 3: 
+		case 3:
+			system("CLS");
 			maze.reverse_backtrack_generate();
 			maze.print_map();
 			system("PAUSE");
 			break;
 		case 4:
-			temp2.generate_path();
-			cout << endl;
-			temp2.print_path_map();
-			system("PAUSE");
+			//temp2.generate_path();
+			//cout << endl;
+			//temp2.print_path_map();
+			//system("PAUSE");
 			break;
 		default:
 			break;

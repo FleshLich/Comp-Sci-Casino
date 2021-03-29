@@ -40,30 +40,32 @@ void AStarPathfinding::print_path_map()
 
 void AStarPathfinding::generate_start()
 {
-	srand((unsigned)time(0));
+	srand((unsigned)time(0) + rand());
 
 	// TODO: MAKE SURE THIS IS ACCOUNTING FOR THE DIFFERENT X AND Y POSITIONS ON THE MAP
-	int num = 0;
+	int num = rand() % map.get_tree().size();
+	num;
 	while (!map.get_tree()[num].visited)
 	{
 		srand((unsigned)time(0) + rand());
-		num = rand() % map.get_height();
+		num = rand() % map.get_tree().size();
 	}
-	startPos = { (map.get_tree()[num].x * 2) - (map.get_tree()[num].x > 0) ? 1 : 0, (map.get_tree()[num].y * 2) - (map.get_tree()[num].y > 0) ? 1 : 0 };
+	startPos = { map.get_tree()[num].x, map.get_tree()[num].y};
 }
 
 void AStarPathfinding::generate_end()
 {
-	srand((unsigned)time(0));
+	srand((unsigned)time(0) + rand());
 
 	// TODO: MAKE SURE THIS IS ACCOUNTING FOR THE DIFFERENT X AND Y POSITIONS ON THE MAP
-	int num = rand() % map.get_height();
+	int num = rand() % map.get_tree().size();
+	num;
 	while (!map.get_tree()[num].visited)
 	{
-		srand((unsigned)time(0) + rand());
-		num = rand() % map.get_height();
+		srand((unsigned)time(0) + rand());;
+		num = rand() % map.get_tree().size();
 	}
-	endPos = { (map.get_tree()[num].x * 2) - (map.get_tree()[num].x > 0) ? 1 : 0, (map.get_tree()[num].y * 2) - (map.get_tree()[num].y > 0) ? 1 : 0 };
+	endPos = { map.get_tree()[num].x * 2, map.get_tree()[num].y * 2 };
 }
 
 void AStarPathfinding::generate_path() 
@@ -74,7 +76,7 @@ void AStarPathfinding::generate_path()
 	vector<node*> to_visit = { &start_node };
 	vector<node*> visited;
 	int outer_iterations = 0;
-	int max_iterations =  map.tree_to_map().size() * map.tree_to_map()[0].size(); // Make this dynamic
+	int max_iterations =  map.tree_to_map().size() * map.tree_to_map()[0].size();
 
 	vector<vector<int>> movements = { {1,0},{0,1},{-1,0},{0,-1} };
 	vector<node*> nodes;;
@@ -93,17 +95,9 @@ void AStarPathfinding::generate_path()
 			}
 		}
 
-		if (outer_iterations > max_iterations)
-		{
-			current;
-			end_node;
-			cout << "MAX ITERATION REACHED";
-			return;
-		}
-
 		to_visit.erase(to_visit.begin() + cur_index);
 		visited.push_back(current);
-		if (current->position == endPos)
+		if (current->position == endPos || outer_iterations > max_iterations)
 		{
 			vector<vector<int>> path;
 			node* cur_path = current;
@@ -114,6 +108,14 @@ void AStarPathfinding::generate_path()
 			}
 
 			fin_path = path;
+			return;
+		}
+
+		if (outer_iterations > max_iterations)
+		{
+			current;
+			end_node;
+			cout << "MAX ITERATION REACHED";
 			return;
 		}
 
