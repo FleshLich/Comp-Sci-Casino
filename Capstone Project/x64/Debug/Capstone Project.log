@@ -1,6 +1,9 @@
-﻿  Capstone Project.cpp
+﻿  AStar.cpp
+  Capstone Project.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\AStar.cpp(79,78): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
 E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091:  'extern ': ignored on left of 'cell' when no variable is declared
 E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
 E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
 E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
   Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

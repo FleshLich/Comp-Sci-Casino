@@ -144,6 +144,7 @@
     <ClCompile Include="Capstone Project.cpp" />
     <ClCompile Include="CasinoGame_Imp.cpp" />
     <ClCompile Include="fileTemplate_Imp.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOfLife_Imp.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
   </ItemGroup>
@@ -151,9 +152,14 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="Blackjack.h" />
     <ClInclude Include="CasinoGame.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="fileTemplate.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameOfLife.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="MazeGenerator.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="String Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
