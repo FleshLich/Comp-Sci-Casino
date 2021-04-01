@@ -34,7 +34,7 @@ public:
 	double get_fortitude_mod() const;
 	double get_leech_mod() const;
 
-	Item(string name, string desc = "", vector<double> modifier_vector = {0,0,0,0,0,0});
+	Item(string name = "", string desc = "", vector<double> modifier_vector = {0,0,0,0,0,0});
 
 	static const rarity_type rarity_n;
 	static const rarity_type rarity_un;

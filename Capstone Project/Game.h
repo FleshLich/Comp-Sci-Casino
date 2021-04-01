@@ -1,15 +1,43 @@
 #pragma once
 #include <vector>
 #include "Player.h"
+#include "Monster.h"
+#include "Item.h"
 #include "MazeGenerator.h"
+
+struct tile
+{
+	vector<int> pos;
+	Monster monster;
+	Item* treasure;
+	bool contains_player = false;
+	bool is_wall = false;
+	int type_id = 0;
+
+	static const int tile_uninit = 0;
+	static const int tile_empty = 1;
+	static const int tile_monster = 2;
+	static const int tile_treasure = 3;
+	static const int tile_treas_monst = 4;
+	static const int tile_wall = 5;
+};
 
 class Game
 {
 public:
 	void generate_map();
+	Monster generate_monster();
+	Item* generate_item();
 
-	// function convert maze char vector into vector of tile types
-	Maze get_map() const;
+	void parse_map();
+
+	void debug_print_map();
+
+	void load_items();
+	void load_monsters();
+
+	Maze get_raw_map() const;
+	vector<vector<tile>> get_map() const;
 	Player get_player() const;
 
 	int get_depth() const;
@@ -18,10 +46,14 @@ public:
 
 	Game();
 private:
-	Maze map;
+	Maze raw_map;
+	vector<vector<tile>> map;
 	Player player;
 
 	int depth;
 
 	vector<double> global_modifiers;
+	
+	vector<Item*> item_list;
+	vector<Monster> monster_list;
 };

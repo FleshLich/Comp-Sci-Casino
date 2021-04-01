@@ -11,7 +11,7 @@ public:
 	vector<Item> get_inventory() const;
 	Item* get_equipped() const;
 
-	Player();
+	Player(string n, int l, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 });
 protected:
 	double xp;
 

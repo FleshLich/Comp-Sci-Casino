@@ -143,10 +143,14 @@
     <ClCompile Include="Blackjack.cpp" />
     <ClCompile Include="Capstone Project.cpp" />
     <ClCompile Include="CasinoGame_Imp.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="fileTemplate_Imp.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOfLife_Imp.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />

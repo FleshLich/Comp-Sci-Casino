@@ -20,10 +20,10 @@ public:
 	double get_leech() const;
 	double get_base_damage() const;
 
-	Game* get_game() const;
+	//Game get_game() const;
 
 	// Stat vector should be {health, strength, dexterity, evasion, fortitude, leech, base}
-	Entity(string name, int level, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 });
+	Entity(string name = "", int level = 0, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 });
 protected:
 	string name;
 
@@ -37,5 +37,5 @@ protected:
 	double leech;
 	double base_damage = 0;
 private:
-	Game* game;
+	//Game game;
 };
