@@ -199,6 +199,18 @@ void Game::run_game()
 		{
 			move_player({ 0, -1 });
 		}
+		else if (GetAsyncKeyState(0x53))
+		{
+			move_player({ 0, 1 });
+		}
+		if (GetAsyncKeyState(0x41))
+		{
+			move_player({ -1,0 });
+		}
+		else if (GetAsyncKeyState(0x44))
+		{
+			move_player({ 1,0 });
+		}
 		debug_print_map();
 		Sleep(1000);
 	}
