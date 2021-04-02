@@ -1,12 +1,5 @@
 #include "Entity.h"
 
-Entity::Entity(string n, int l, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 })
-{
-	name = n;
-	level = l;
-	// implement rest
-}
-
 string Entity::get_name() const
 {
 	return name;
@@ -50,4 +43,18 @@ double Entity::get_leech() const
 double Entity::get_base_damage() const
 {
 	return base_damage;
+}
+
+Entity::Entity(string n, int l, vector<double> stats)
+{
+	name = n;
+	level = l;
+	
+	health = stats[0];
+	strength = stats[1];
+	dexterity = stats[2];
+	evasion = stats[3];
+	fortitude = stats[4];
+	leech = stats[5];
+	base_damage = stats[6];
 }

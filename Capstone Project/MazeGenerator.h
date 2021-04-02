@@ -35,6 +35,8 @@ public:
 
 	vector<cell*> get_unvisited_neigbors(cell);
 
+	cell* get_random_cell();
+
 	vector<cell> get_tree() const;
 
 	vector<int> get_start() const;

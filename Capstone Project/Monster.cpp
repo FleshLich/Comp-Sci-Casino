@@ -15,6 +15,6 @@ vector<double> Monster::get_level_mods() const
 	return level_mods;
 }
 
-Monster::Monster(string n, int l, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 }): Entity(n ,l, stats)
+Monster::Monster(string n, int l, vector<double> stats): Entity(n ,l, stats)
 {
 }

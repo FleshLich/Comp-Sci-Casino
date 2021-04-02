@@ -48,6 +48,8 @@ public:
 	static const item_type breastplate;
 	static const item_type greaves;
 	static const item_type potion_set;
+
+	static const Item empty_item;
 private:
 	string name;
 	string description;
@@ -65,15 +67,3 @@ private:
 };
 
 
-const rarity_type Item::rarity_n{ 1 };
-const rarity_type Item::rarity_un{ 2 };
-const rarity_type Item::rarity_r{ 3 };
-const rarity_type Item::rarity_l{ 4 };
-const rarity_type Item::rarity_e{ 5 };
-
-const item_type Item::sword{ "sword" };
-const item_type Item::bow{ "bow" };
-const item_type Item::helmet{ "helmet" };
-const item_type Item::breastplate{ "breastplate" };
-const item_type Item::greaves{ "greaves" };
-const item_type Item::potion_set{ "potion set" };

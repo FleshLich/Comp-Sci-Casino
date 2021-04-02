@@ -15,11 +15,22 @@ vector<Item> Player::get_inventory() const
 	return inventory;
 }
 
-Item* Player::get_equipped() const
+vector<Item> Player::get_equipped() const
 {
+	return equipped;
 }
 
-Player::Player(string n, int l, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 }) : Entity(n, l, stats)
+vector<int> Player::get_pos() const
 {
-	equipped = new Item[4];
+	return cur_pos;
+}
+
+void Player::set_pos(vector<int> p)
+{
+	cur_pos = p;
+}
+
+Player::Player(string n, int l, vector<double> stats) : Entity(n, l, stats)
+{
+	equipped = {Item::empty_item, Item::empty_item, Item::empty_item, Item::empty_item};
 }

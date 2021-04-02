@@ -168,6 +168,17 @@ bool Maze::has_unvisited_neighbors(cell c)
 	return false;
 }
 
+cell* Maze::get_random_cell()
+{
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> heightGen(0, height - 1);
+	uniform_int_distribution<int> widthGen(0, width - 1);
+	vector<int> pos = { widthGen(mt), heightGen(mt) };
+
+	return get_cell_by_pos(pos[0], pos[1]);
+}
+
 bool Maze::are_cells_connected(cell* c, cell* c2)
 {
 	for (int i = 0; i < c->connected_to.size(); i++)

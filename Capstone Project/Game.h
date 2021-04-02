@@ -20,6 +20,8 @@ struct tile
 	static const int tile_treasure = 3;
 	static const int tile_treas_monst = 4;
 	static const int tile_wall = 5;
+	static const int tile_start = -1;
+	static const int tile_end = -2;
 };
 
 class Game
@@ -40,9 +42,17 @@ public:
 	vector<vector<tile>> get_map() const;
 	Player get_player() const;
 
+	vector<int> get_start() const;
+	vector<int> get_end() const;
+
 	int get_depth() const;
 
 	vector<double> get_global_mods() const;
+
+	void move_player(vector<int>);
+
+	void toggle_game();
+	void run_game();
 
 	Game();
 private:
@@ -56,4 +66,9 @@ private:
 	
 	vector<Item*> item_list;
 	vector<Monster> monster_list;
+
+	vector<int> map_start;
+	vector<int> map_end;
+
+	bool playing = false;
 };
