@@ -1,1 +1,7 @@
-﻿  Capstone Project.vcxproj -> D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+﻿  MazeGenerator.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         with
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         [
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:             _Ty=int
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         ]
+  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

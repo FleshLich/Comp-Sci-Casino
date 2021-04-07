@@ -17,6 +17,15 @@
 
 using namespace std;
 
+template <class type>
+void safe_input(type* in)
+{
+	while (!(cin >> *in))
+	{
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+}
 
 // TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
 // TODO: Work out the kinks of file template and do some QA
@@ -42,9 +51,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		Maze maze(5,6);
-
-		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations" });
+		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations", "Generate a Maze" });
 
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
@@ -53,13 +60,8 @@ int main()
 
 		cout << mainMenu.get_parsed_menu_string();
 
-		while (!(cin >> input))
-		{
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			system("CLS");
-			cout << mainMenu.get_parsed_menu_string();
-		}
+		safe_input<int>(&input);
+		cout << mainMenu.get_parsed_menu_string();
 
 		switch (input)
 		{
@@ -70,15 +72,29 @@ int main()
 			gameOfLifeMenu = true;
 			break;
 		case 3:
+		{
+			int height;
+			int width;
+			system("CLS");
+
+			cout << "Note that your maze size will be rounded to make sure it is properly generated." << endl;
+			cout << "Enter width of maze: ";
+			safe_input<int>(&width);
+			cout << "\nEnter height of maze: ";
+			safe_input<int>(&height);
+
+			Maze maze(width, height);
 			system("CLS");
 			maze.reverse_backtrack_generate();
 			maze.print_map();
 			system("PAUSE");
 			break;
+		}
 		case 4:
 			system("CLS");
 			game.toggle_game();
 			game.run_game();
+			//game.start_battle(true);
 			system("PAUSE");
 			break;
 		default:

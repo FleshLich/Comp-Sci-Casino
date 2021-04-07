@@ -269,8 +269,9 @@ vector<int> Maze::get_start() const
 
 Maze::Maze(int w, int h)
 {
-	width = w;
-	height = h;
+	// Adjusting based on how maze is generated
+	width = (w - (w / 2));
+	height = (h - (h / 2));
 
 	init_tree();
 }

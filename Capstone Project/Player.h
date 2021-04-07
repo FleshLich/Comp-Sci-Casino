@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include "Item.h"
 
-class Player : Entity
+class Player : public Entity
 {
 public:
 	int get_knowledge() const;
@@ -11,11 +11,13 @@ public:
 	vector<Item> get_inventory() const;
 	vector<Item> get_equipped() const;
 
+	double get_damage();
+
 	vector<int> get_pos() const;
 
 	void set_pos(vector<int>);
 
-	Player(string n = "Player", int l = 1, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 });
+	Player(string n = "Player", int l = 1, vector<double> stats = { 10, 1, 1, 0, 0, 0, 0 }, vector<double> mods = { 0,0,0,0,0,0,0 });
 protected:
 	double xp = 0;
 

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Item.h"
+#include "Battle.h"
 #include "MazeGenerator.h"
 
 struct tile
@@ -41,6 +42,9 @@ public:
 	Maze get_raw_map() const;
 	vector<vector<tile>> get_map() const;
 	Player get_player() const;
+	Battle get_battle() const;
+
+	Monster get_random_monster();
 
 	vector<int> get_start() const;
 	vector<int> get_end() const;
@@ -50,6 +54,8 @@ public:
 	vector<double> get_global_mods() const;
 
 	void move_player(vector<int>);
+
+	void start_battle(bool debug = false);
 
 	void toggle_game();
 	void run_game();
@@ -69,6 +75,8 @@ private:
 
 	vector<int> map_start;
 	vector<int> map_end;
+
+	Battle cur_battle;
 
 	bool playing = false;
 };

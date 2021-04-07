@@ -8,7 +8,7 @@ struct drop
 	double chance;
 };
 
-class Monster : Entity
+class Monster : public Entity
 {
 public:
 	double get_drop_chance();
@@ -17,10 +17,10 @@ public:
 
 	vector<double> get_level_mods() const;
 
-	Monster(string n = "", int l = 0, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 });
+	Monster(string n = "", int l = 0, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 }, vector<double> mods = { 0,0,0,0,0,0,0 }, vector<double> chance_vector = { 50, 0, 0, 0, 0 });
 private:
 	// % for normal, % for uncommon, % for rare, % for legendary, % for enigma
-	double rarity_drop_chance[5] = { 50, 0, 0, 0, 0};
+	vector<double> rarity_drop_chance;
 
 	vector<drop> drop_table;
 

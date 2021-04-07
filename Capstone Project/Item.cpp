@@ -70,7 +70,21 @@ double Item::get_leech_mod() const
 	return leech_mod;
 }
 
-Item::Item(string name, string desc, vector<double> modifier_vector)
+double Item::get_damage_mod() const
 {
+	return damage_mod;
+}
 
+Item::Item(string n, string d, vector<double> mv)
+{
+	name = n;
+	description = d;
+
+	health_mod = mv[0];
+	strength_mod = mv[1];
+	dex_mod = mv[2];
+	evasion_mod = mv[3];
+	fortitude_mod = mv[4];
+	leech_mod = mv[5];
+	damage_mod = mv[6];
 }

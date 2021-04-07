@@ -14,7 +14,7 @@ void Game::generate_map()
 
 Monster Game::generate_monster()
 {
-	Monster temp;
+	Monster temp("Test", 1, {5, 1, 1, 0, 0, 0, 1});
 	return temp;
 }
 
@@ -155,6 +155,17 @@ Player Game::get_player() const
 	return player;
 }
 
+Battle Game::get_battle() const
+{
+	return cur_battle;
+}
+
+Monster Game::get_random_monster()
+{
+	Monster test;
+	return test;
+}
+
 vector<int> Game::get_start() const
 {
 	return map_start;
@@ -178,11 +189,27 @@ vector<double> Game::get_global_mods() const
 void Game::move_player(vector<int> offset)
 {
 	vector<int> new_pos = { player.get_pos()[0] + offset[0], player.get_pos()[1] + offset[1] };
+	if (new_pos[1] > map.size() - 1 || new_pos[1] < 0 || new_pos[0] > map[0].size() - 1 || new_pos[0] < 0)
+	{
+		return;
+	}
+
 	tile* new_tile = &map[new_pos[1]][new_pos[0]];
+	if (new_tile->type_id == tile::tile_wall)
+	{
+		return;
+	}
+	
 
 	map[player.get_pos()[1]][player.get_pos()[0]].contains_player = false;
 	new_tile->contains_player = true;
 	player.set_pos(new_pos);
+}
+
+void Game::start_battle(bool d)
+{
+	cur_battle.toggle_status();
+	cur_battle.do_turn(d);
 }
 
 void Game::toggle_game()
@@ -216,7 +243,8 @@ void Game::run_game()
 	}
 }
 
-Game::Game() 
+Game::Game()
+	: cur_battle(&player, get_random_monster()), raw_map(15, 15)
 {
 	generate_map();
 }

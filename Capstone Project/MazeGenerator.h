@@ -9,7 +9,7 @@ struct cell
 	vector<cell*> connected_to;
 	int x, y;
 };
-
+// NOTE: Due to the way that the maze is generated the width and height will be almost doubled 
 class Maze
 {
 public:

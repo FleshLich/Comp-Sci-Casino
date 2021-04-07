@@ -19,10 +19,22 @@ public:
 	double get_leech() const;
 	double get_base_damage() const;
 
-	//Game get_game() const;
+	double get_health_mod() const;
+	double get_strength_mod() const;
+	double get_dexterity_mod() const;
+	double get_evasion_mod() const;
+	double get_fortitude_mod() const;
+	double get_leech_mod() const;
+	double get_base_damage_mod() const;
 
-	// Stat vector should be {health, strength, dexterity, evasion, fortitude, leech, base}
-	Entity(string name = "", int level = 0, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 });
+	double get_damage() const;
+
+	void set_health(double);
+
+	void do_damage(double);
+
+	// Stat and mod vector should be {health, strength, dexterity, evasion, fortitude, leech, base}
+	Entity(string name = "", int level = 0, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 }, vector<double> mods = {0,0,0,0,0,0,0});
 protected:
 	string name;
 
@@ -35,6 +47,14 @@ protected:
 	double fortitude;
 	double leech;
 	double base_damage = 0;
+
+	double health_mod;
+	double strength_mod;
+	double dex_mod;
+	double evasion_mod;
+	double fortitude_mod;
+	double leech_mod;
+	double base_damage_mod;
 private:
 	//Game game;
 };
