@@ -115,7 +115,7 @@ int main()
 			}
 
 			cout << "\n\n1. To hit, 2 to stand: ";
-			cin >> input;
+			safe_input<int>(&input);
 			switch (input)
 			{
 			case 1:
@@ -164,11 +164,7 @@ int main()
 			cout << "6. Back\n";
 
 			cout << "Choice: ";
-			while (!(cin >> input))
-			{
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
+			safe_input<int>(&input);
 
 			switch (input)
 			{
