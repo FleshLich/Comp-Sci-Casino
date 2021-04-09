@@ -139,6 +139,7 @@ vector<vector<char>> Maze::tree_to_map()
 			}
 		}
 	}
+	system("CLS");
 	return map;
 }
 

@@ -19,7 +19,7 @@ public:
 
 	Battle(Player *player_instance, Monster monster);
 private:
-	// Whether the battle is ongoing or not, false means battle is over/not start, true means battle is current
+	// Whether the battle is ongoing or not, false means battle is over/not started, true means battle is current
 	bool status = false;
 	Player *player_instance;
 	Monster monster;

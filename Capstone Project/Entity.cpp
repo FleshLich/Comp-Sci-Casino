@@ -85,9 +85,50 @@ double Entity::get_damage() const
 	return get_base_damage() + get_strength() + get_dexterity();
 }
 
+void Entity::set_stats(vector<double> v)
+{
+	health = v[0];
+	strength = v[1];
+	dexterity = v[2];
+	evasion = v[3];
+	fortitude = v[4];
+	leech = v[5];
+	base_damage = v[6];
+}
+
 void Entity::set_health(double h)
 {
 	health = h;
+}
+
+void Entity::set_strength(double i)
+{
+	strength = i;
+}
+
+void Entity::set_dexterity(double i)
+{
+	dexterity = i;
+}
+
+void Entity::set_evasion(double i)
+{
+	evasion = i;
+}
+
+void Entity::set_fortitude(double i)
+{
+	fortitude = i;
+}
+
+void Entity::set_leech(double i)
+{
+	leech = i;
+}
+
+void Entity::set_base_damage(double i)
+{
+	base_damage = i;
 }
 
 void Entity::do_damage(double d)

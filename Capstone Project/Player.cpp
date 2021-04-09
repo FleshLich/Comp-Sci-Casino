@@ -20,9 +20,14 @@ vector<Item> Player::get_equipped() const
 	return equipped;
 }
 
+void Player::add_to_inventory(Item i)
+{
+	inventory.push_back(i);
+}
+
 double Player::get_damage()
 {
-	return equipped[3].get_damage_mod() + (&equipped[3].get_type() == &Item::sword) ? get_strength() : get_dexterity();
+	return equipped[3].get_damage_mod() + (equipped[3].get_type() == Item::sword) ? get_strength() : get_dexterity();
 }
 
 vector<int> Player::get_pos() const

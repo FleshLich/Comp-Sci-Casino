@@ -9,6 +9,7 @@
 #include <string>
 #include <cstdlib>
 #include <Windows.h>
+#include "safe_input.h"
 #include "Blackjack.h"
 #include "GameOfLife.h"
 #include "String Utilities.h"
@@ -17,15 +18,7 @@
 
 using namespace std;
 
-template <class type>
-void safe_input(type* in)
-{
-	while (!(cin >> *in))
-	{
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
-}
+
 
 // TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
 // TODO: Work out the kinks of file template and do some QA
@@ -95,7 +88,6 @@ int main()
 			game.toggle_game();
 			game.run_game();
 			//game.start_battle(true);
-			system("PAUSE");
 			break;
 		default:
 			break;

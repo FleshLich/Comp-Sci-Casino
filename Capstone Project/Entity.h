@@ -29,7 +29,14 @@ public:
 
 	double get_damage() const;
 
+	void set_stats(vector<double>);
 	void set_health(double);
+	void set_strength(double);
+	void set_dexterity(double);
+	void set_evasion(double);
+	void set_fortitude(double);
+	void set_leech(double);
+	void set_base_damage(double);
 
 	void do_damage(double);
 

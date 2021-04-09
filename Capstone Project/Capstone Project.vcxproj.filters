@@ -101,5 +101,8 @@
     <ClInclude Include="Battle.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="safe_input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,10 +29,13 @@ class Game
 {
 public:
 	void generate_map();
+	Item* generate_item(int rarity = Item::rarity_n.type);
 	Monster generate_monster();
-	Item* generate_item();
 
 	void parse_map();
+
+	void show_inventory();
+	void show_stats();
 
 	void debug_print_map();
 
@@ -64,6 +67,8 @@ public:
 private:
 	Maze raw_map;
 	vector<vector<tile>> map;
+	vector<string> event_stack;
+
 	Player player;
 
 	int depth;

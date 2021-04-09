@@ -8,12 +8,20 @@ using namespace std;
 struct rarity_type
 {
 	int type;
+
+	bool operator==(rarity_type);
+
+	friend ostream& operator<<(ostream&, const rarity_type&);
 };
 
 // types can be: sword, bow, armor(helm, chest, legs), potion,
 struct item_type
 {
 	string type;
+
+	bool operator==(item_type);
+
+	friend ostream& operator<<(ostream&, const item_type&);
 };
 
 class Item
@@ -35,7 +43,13 @@ public:
 	double get_leech_mod() const;
 	double get_damage_mod() const;
 
+	void set_rarity(rarity_type);
+	void set_type(item_type);
+	void set_knowledge_req(int);
+
 	Item(string name = "", string desc = "", vector<double> modifier_vector = {0,0,0,0,0,0,0});
+
+	static string rarity_to_string(rarity_type);
 
 	static const rarity_type rarity_n;
 	static const rarity_type rarity_un;
@@ -49,6 +63,8 @@ public:
 	static const item_type breastplate;
 	static const item_type greaves;
 	static const item_type potion_set;
+
+	static const vector<item_type> all_types;
 
 	static const Item empty_item;
 private:

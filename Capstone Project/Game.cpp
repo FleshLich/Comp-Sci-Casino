@@ -12,17 +12,44 @@ void Game::generate_map()
 	player.set_pos(map_start);
 }
 
-Monster Game::generate_monster()
+Item* Game::generate_item(int r)
 {
-	Monster temp("Test", 1, {5, 1, 1, 0, 0, 0, 1});
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> typeGen(0, Item::all_types.size() - 1);
+	uniform_int_distribution<int> statGen(0, 3);
+
+	item_type temp_type = Item::all_types[typeGen(mt)];
+	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r });
+	temp->set_knowledge_req(statGen(mt) * r);
+	temp->set_type(temp_type);
+	temp->set_rarity(rarity_type{r});
+
+	item_list.push_back(temp);
 	return temp;
 }
 
-Item* Game::generate_item()
+Monster Game::generate_monster()
 {
-	Item* temp = new Item;
-	item_list.push_back(temp);
-	return temp;
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> healthGen(2, 10);
+	uniform_int_distribution<int> statGen(0, 3);
+
+	Monster new_monster("Monster", 1);
+	new_monster.set_stats({ (double)healthGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt) });
+	// TODO: add monster difficulty generator to enhance item type
+	int num_items = statGen(mt);
+	for (int i = 0; i < num_items; i++)
+	{
+		Item* new_item = generate_item(Item::rarity_n.type);
+		drop new_drop{new_item, (statGen(mt) + 1) * 25};
+		new_monster.add_to_drops(new_drop);
+	}
+
+	monster_list.push_back(new_monster);
+
+	return new_monster;
 }
 
 void Game::parse_map()
@@ -94,6 +121,22 @@ void Game::parse_map()
 	map = parsed_map;
 }
 
+void Game::show_inventory()
+{
+	system("CLS");
+	vector<Item> cur_inv = player.get_inventory();
+	for (int i = 0; i < cur_inv.size(); i++)
+	{
+		if (player.get_knowledge() >= cur_inv[i].get_knowledge_req())
+		{
+			cout << cur_inv[i].get_name() << " " << Item::rarity_to_string(cur_inv[i].get_rarity()) << " " << cur_inv[i].get_desc() << endl;
+			continue;
+		}
+		cout << "????? ?????(Your knowledge level is too low)\n";
+	}
+	system("PAUSE");
+}
+
 void Game::debug_print_map()
 {
 	for (int y = 0; y < map.size(); y++)
@@ -131,7 +174,13 @@ void Game::debug_print_map()
 		}
 		cout << endl;
 	}
-	cout << endl << endl;
+	cout << endl;
+	for (int i = event_stack.size() - 1; i > -1; i--)
+	{
+		cout << event_stack[i] << endl;
+	}
+	cout << "Press 1 to view Inventory\n";
+	cout << "Press 2 to view Stats\n";
 }
 
 void Game::load_items()
@@ -162,8 +211,11 @@ Battle Game::get_battle() const
 
 Monster Game::get_random_monster()
 {
-	Monster test;
-	return test;
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> mGen(0, monster_list.size() - 1);
+
+	return monster_list[mGen(mt)];
 }
 
 vector<int> Game::get_start() const
@@ -188,6 +240,8 @@ vector<double> Game::get_global_mods() const
 
 void Game::move_player(vector<int> offset)
 {
+	event_stack.clear();
+
 	vector<int> new_pos = { player.get_pos()[0] + offset[0], player.get_pos()[1] + offset[1] };
 	if (new_pos[1] > map.size() - 1 || new_pos[1] < 0 || new_pos[0] > map[0].size() - 1 || new_pos[0] < 0)
 	{
@@ -219,9 +273,41 @@ void Game::toggle_game()
 
 void Game::run_game()
 {
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> dropGen(0, 100);
 	while (playing)
 	{
+		tile* cur_tile = &map[player.get_pos()[1]][player.get_pos()[0]];
 		system("CLS");
+		if (cur_battle.get_status())
+		{
+			cur_battle.do_turn(1);
+			cur_battle = Battle(&player, get_random_monster());
+			for (int i = 0; i < cur_battle.get_monster().get_drop_table().size(); i++)
+			{
+				drop cur_drop = cur_battle.get_monster().get_drop_table()[i];
+				if (dropGen(mt) < 100)//cur_drop.chance)
+				{
+					player.add_to_inventory(*cur_drop.to_drop);
+					event_stack.push_back("You got a new item!");
+				}
+			}
+			continue;
+		}
+
+		if (cur_tile->type_id == tile::tile_monster || cur_tile->type_id == tile::tile_treas_monst)
+		{
+			cur_tile->type_id = tile::tile_empty;
+			cur_battle.toggle_status();
+			continue;
+		}
+
+		if (GetAsyncKeyState(0x31))
+		{
+			show_inventory();
+		}
+
 		if (GetAsyncKeyState(0x57))
 		{
 			move_player({ 0, -1 });
@@ -239,12 +325,12 @@ void Game::run_game()
 			move_player({ 1,0 });
 		}
 		debug_print_map();
-		Sleep(1000);
+		Sleep(500);
 	}
 }
 
 Game::Game()
-	: cur_battle(&player, get_random_monster()), raw_map(15, 15)
+	: cur_battle(&player, generate_monster()), raw_map(15, 15)
 {
 	generate_map();
 }
