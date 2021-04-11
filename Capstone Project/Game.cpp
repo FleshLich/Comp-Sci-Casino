@@ -411,7 +411,7 @@ void Game::run_game()
 	mt19937 mt(rd());
 	uniform_int_distribution<int> dropGen(0, 100);
 	bool has_changed = true;
-	// TODO: Fix super fast keyboard input
+	// TODO: Fix super fast keyboard input, fix some events not showing up due to has_changed not changing
 	while (playing)
 	{
 		tile* cur_tile = &map[player.get_pos()[1]][player.get_pos()[0]];
