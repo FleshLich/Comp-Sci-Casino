@@ -57,6 +57,7 @@ public:
 	vector<double> get_global_mods() const;
 
 	void move_player(vector<int>);
+	void level_player();
 
 	void start_battle(bool debug = false);
 
@@ -68,6 +69,9 @@ private:
 	Maze raw_map;
 	vector<vector<tile>> map;
 	vector<string> event_stack;
+
+	void add_event(string, bool repeats = false);
+	void debug_add_event(string, bool&);
 
 	Player player;
 

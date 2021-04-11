@@ -29,6 +29,8 @@ public:
 
 	double get_damage() const;
 
+	void set_level(int);
+
 	void set_stats(vector<double>);
 	void set_health(double);
 	void set_strength(double);
@@ -37,6 +39,15 @@ public:
 	void set_fortitude(double);
 	void set_leech(double);
 	void set_base_damage(double);
+
+	void set_mods(vector<double>);
+	void set_health_mod(double);
+	void set_strength_mod(double);
+	void set_dexterity_mod(double);
+	void set_evasion_mod(double);
+	void set_fortitude_mod(double);
+	void set_leech_mod(double);
+	void set_base_damage_mod(double);
 
 	void do_damage(double);
 

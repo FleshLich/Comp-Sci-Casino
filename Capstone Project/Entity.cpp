@@ -85,6 +85,11 @@ double Entity::get_damage() const
 	return get_base_damage() + get_strength() + get_dexterity();
 }
 
+void Entity::set_level(int l)
+{
+	level = l;
+}
+
 void Entity::set_stats(vector<double> v)
 {
 	health = v[0];

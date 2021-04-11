@@ -55,7 +55,7 @@ void Battle::do_turn(bool d)
 	(player_instance->get_health() > monster.get_health() && d) ? cout << "\nPlayer wins!" << endl : cout << "\nMonster wins!" << endl; system("PAUSE");
 	toggle_status();
 }
-// Fix bug where passing monster from get_random returns empty monster instance
+
 Battle::Battle(Player* p, Monster m)
 	: player_instance(p), monster(m)
 {

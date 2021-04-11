@@ -5,8 +5,8 @@ D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(19,70): warni
               _Ty=int
           ]
 D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(46,45): warning C4838: conversion from 'int' to 'double' requires a narrowing conversion
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(178,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(216,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(192,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(230,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
           with
           [
               _Ty=int

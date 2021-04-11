@@ -137,6 +137,20 @@ void Game::show_inventory()
 	system("PAUSE");
 }
 
+void Game::show_stats()
+{
+	system("CLS");
+	cout << "Health: " << player.get_health() << endl;
+	cout << "Strength: " << player.get_strength() << endl;
+	cout << "Dexterity: " << player.get_dexterity() << endl;
+	cout << "Evasion: " << player.get_evasion() << endl;
+	cout << "Fortitude: " << player.get_fortitude() << endl;
+	cout << "Leech: " << player.get_leech() << endl;
+	cout << "Knowledge: " << player.get_knowledge() << endl;
+	cout << "Damage: " << player.get_damage() << endl;
+	system("PAUSE");
+}
+
 void Game::debug_print_map()
 {
 	for (int y = 0; y < map.size(); y++)
@@ -238,6 +252,32 @@ vector<double> Game::get_global_mods() const
 	return global_modifiers;
 }
 
+void Game::add_event(string m, bool repeats)
+{
+	if (event_stack.empty()) { event_stack.push_back(m); return; }
+	
+	if (!repeats)
+	{
+		for (int i = 0; i < event_stack.size(); i++)
+		{
+			if (event_stack[i] == m) return;
+		}
+	}
+	event_stack.push_back(m);
+}
+
+void Game::debug_add_event(string m, bool &change)
+{
+	if (event_stack.empty()) { event_stack.push_back(m); return; }
+
+	for (int i = 0; i < event_stack.size(); i++)
+	{
+		if (event_stack[i] == m) return;
+	}
+	event_stack.push_back(m);
+	change = true;
+}
+
 void Game::move_player(vector<int> offset)
 {
 	event_stack.clear();
@@ -260,6 +300,100 @@ void Game::move_player(vector<int> offset)
 	player.set_pos(new_pos);
 }
 
+void Game::level_player()
+{
+	system("CLS");
+	bool leveling = true;
+	bool has_changed = true;
+
+	int init_points = player.get_attr_points();
+	int cur_points = init_points;
+
+	vector<double> base_stats = { 0, 0, 0, 0, 0, 0, 0};
+	vector<double> new_stats = base_stats;
+	while (leveling)
+	{
+		if (has_changed)
+		{
+			system("CLS");
+
+			cout << "Press the corresponding key to level up that stat. Press C to refund your points\n";
+			cout << "You currently have " << cur_points << " points to spend\n";
+			cout << "1. Health: " << player.get_health() + new_stats[0] * 5 << "(+5 per point)\n";
+			cout << "2. Strength: " << player.get_strength() + new_stats[1] << endl;
+			cout << "3. Dexterity: " << player.get_dexterity() + new_stats[2] << endl;
+			cout << "4. Evasion: " << player.get_evasion() + new_stats[3] << endl;
+			cout << "5. Fortitude: " << player.get_fortitude() + new_stats[4] << endl;
+			cout << "6. Leech: " << player.get_leech() + new_stats[5] << endl;
+			cout << "7. Knowledge: " << player.get_knowledge() + new_stats[6] << endl;
+			cout << "\nPress x to return to the game";
+
+			has_changed = false;
+		}
+		
+		// Fix cpu usage
+		if (cur_points > 0)
+		{
+			if (GetKeyState(0x31) & 0x8000)
+			{
+				cur_points--;
+				new_stats[0]++;
+				has_changed = true;
+			}
+			else if (GetKeyState(0x32) & 0x8000)
+			{
+				cur_points--;
+				new_stats[1]++;
+				has_changed = true;
+			}
+			else if (GetKeyState(0x33) & 0x8000)
+			{
+				cur_points--;
+				new_stats[2]++;
+				has_changed = true;
+			}
+			else if (GetKeyState(0x34) & 0x8000)
+			{
+				cur_points--;
+				new_stats[3]++;
+				has_changed = true;
+			}
+			else if (GetKeyState(0x35) & 0x8000)
+			{
+				cur_points--;
+				new_stats[4]++;
+				has_changed = false;
+			}
+			else if (GetKeyState(0x36) & 0x8000)
+			{
+				cur_points--;
+				new_stats[5]++;
+				has_changed = true;
+			}
+			else if (GetKeyState(0x37) & 0x8000)
+			{
+				cur_points--;
+				new_stats[6]++;
+				has_changed = true;
+			}
+		}
+		if (GetKeyState(0x43) & 0x8000)
+		{
+			cur_points = init_points;
+			new_stats = base_stats;
+			has_changed = true;
+		}
+		else if (GetAsyncKeyState(0x58) & 0x8000)
+		{
+			leveling = false;
+		}
+		Sleep(1);
+	}
+	player.set_attr_points(cur_points);
+	new_stats[0] = new_stats[0] * 5;
+	player.add_stats(new_stats);
+}
+
 void Game::start_battle(bool d)
 {
 	cur_battle.toggle_status();
@@ -276,56 +410,92 @@ void Game::run_game()
 	random_device rd;
 	mt19937 mt(rd());
 	uniform_int_distribution<int> dropGen(0, 100);
+	bool has_changed = true;
+	// TODO: Fix super fast keyboard input
 	while (playing)
 	{
 		tile* cur_tile = &map[player.get_pos()[1]][player.get_pos()[0]];
-		system("CLS");
-		if (cur_battle.get_status())
+		if (false)//cur_battle.get_status())
 		{
+			system("CLS");
 			cur_battle.do_turn(1);
 			cur_battle = Battle(&player, get_random_monster());
 			for (int i = 0; i < cur_battle.get_monster().get_drop_table().size(); i++)
 			{
 				drop cur_drop = cur_battle.get_monster().get_drop_table()[i];
-				if (dropGen(mt) < 100)//cur_drop.chance)
+				if (dropGen(mt) < cur_drop.chance)
 				{
 					player.add_to_inventory(*cur_drop.to_drop);
-					event_stack.push_back("You got a new item!");
+					add_event("You got a new item!", true);
 				}
+				has_changed = true;
 			}
 			continue;
 		}
 
+		if (player.get_attr_points() > 0)
+		{
+			debug_add_event("You have attribute points to spend! Press L to spend them", has_changed);
+		}
+
+		if (cur_tile->type_id == tile::tile_treasure)
+		{
+			cur_tile->type_id = tile::tile_empty;
+			player.add_to_inventory(*generate_item());
+			add_event("You found treasure! An item has been added to your inventory.");
+			has_changed = true;
+		}
 		if (cur_tile->type_id == tile::tile_monster || cur_tile->type_id == tile::tile_treas_monst)
 		{
 			cur_tile->type_id = tile::tile_empty;
 			cur_battle.toggle_status();
+			has_changed = true;
 			continue;
 		}
-
-		if (GetAsyncKeyState(0x31))
+		if (cur_tile->type_id == tile::tile_end)
 		{
+			debug_add_event("You have found the exit, press x to move to the next level", has_changed);
+		}
+
+		if (GetAsyncKeyState(0x31) & 0x8000)
+		{
+			has_changed = true;
 			show_inventory();
 		}
+		else if (GetAsyncKeyState(0x32) & 0x8000)
+		{
+			has_changed = true;
+			show_stats();
+		}
+		else if (GetAsyncKeyState(0x4C) && player.get_attr_points() > 0)
+		{
+			has_changed = true;
+			event_stack.clear();
+			level_player();
+		}
 
-		if (GetAsyncKeyState(0x57))
+		if (GetAsyncKeyState(0x57) & 0x8000)
 		{
 			move_player({ 0, -1 });
+			has_changed = true;
 		}
-		else if (GetAsyncKeyState(0x53))
+		else if (GetAsyncKeyState(0x53) & 0x8000)
 		{
 			move_player({ 0, 1 });
+			has_changed = true;
 		}
-		if (GetAsyncKeyState(0x41))
+		if (GetAsyncKeyState(0x41) & 0x8000)
 		{
 			move_player({ -1,0 });
+			has_changed = true;
 		}
-		else if (GetAsyncKeyState(0x44))
+		else if (GetAsyncKeyState(0x44) & 0x8000)
 		{
 			move_player({ 1,0 });
+			has_changed = true;
 		}
-		debug_print_map();
-		Sleep(500);
+		if (has_changed) { system("CLS"); debug_print_map(); has_changed = false; };
+		Sleep(1);
 	}
 }
 
