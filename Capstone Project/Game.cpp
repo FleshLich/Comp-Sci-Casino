@@ -1,7 +1,10 @@
 #include <random>
 #include <iostream>
+#include <chrono>
 #include <Windows.h>
 #include "Game.h"
+
+typedef std::chrono::duration<int, std::milli> millisecs_t;
 
 void Game::generate_map()
 {
@@ -20,7 +23,7 @@ Item* Game::generate_item(int r)
 	uniform_int_distribution<int> statGen(0, 3);
 
 	item_type temp_type = Item::all_types[typeGen(mt)];
-	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r });
+	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 1 : 0) });
 	temp->set_knowledge_req(statGen(mt) * r);
 	temp->set_type(temp_type);
 	temp->set_rarity(rarity_type{r});
@@ -121,20 +124,66 @@ void Game::parse_map()
 	map = parsed_map;
 }
 
+// Fix inventory display, equip, and modifier bugs
 void Game::show_inventory()
 {
 	system("CLS");
 	vector<Item> cur_inv = player.get_inventory();
-	for (int i = 0; i < cur_inv.size(); i++)
+	int page = 1;
+	int pages = (cur_inv.size() / 9) + 1; pages == 0 ? 1 : pages;
+	bool showing_item = false;
+	bool viewing = true;
+	viewChanged = true;
+	vector<int> keys = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39 };
+
+	while (viewing)
 	{
-		if (player.get_knowledge() >= cur_inv[i].get_knowledge_req())
+		if (viewChanged)
 		{
-			cout << cur_inv[i].get_name() << " " << Item::rarity_to_string(cur_inv[i].get_rarity()) << " " << cur_inv[i].get_desc() << endl;
-			continue;
+			system("CLS");
+			for (int i = 0 + (10 * (page - 1)); i < ((cur_inv.size() / 9) * 9) / pages; i++)
+			{
+				if (player.get_knowledge() >= cur_inv[i].get_knowledge_req())
+				{
+					cout << (i / ((page > 1) ? 9 : 1)) + 1 << ". " << cur_inv[i].get_name() << " " << Item::rarity_to_string(cur_inv[i].get_rarity()) << " " << cur_inv[i].get_desc() << endl;
+					continue;
+				}
+				cout << "????? ?????(Your knowledge level is too low)\n";
+			}
+			cout << "\nPage " << page << " of " << pages;
+
+			cout << "\nPress the corresponding key to view an item.";
+			cout << "\nPress the right and left arrow key to go back and forth between pages";
+			cout << "\nPress x to exit";
+
+			viewChanged = false;
 		}
-		cout << "????? ?????(Your knowledge level is too low)\n";
+		for (int i = 0 ; i < keys.size(); i++)
+		{
+			if (GetAsyncKeyState(keys[i]) & 0x8000 && check_press() && (i + (10 * (page - 1))) < player.get_inventory().size())
+			{
+				viewChanged = true;
+				view_item(i);//(i + (10 * (page - 1))) + 1);
+			}
+		}
+		if (GetAsyncKeyState(0x25) & 0x8000 && check_press() && page != 1)
+		{
+			viewChanged = true;
+			page--;
+		}
+		else if (GetAsyncKeyState(0x27) & 0x8000 && check_press() && page != pages)
+		{
+			viewChanged = true;
+			page++;
+		}
+		if (GetAsyncKeyState(0x58) & 0x8000 && check_press())
+		{
+			viewChanged = true;
+			viewing = false;
+			break;
+		}
+		Sleep(1);
 	}
-	system("PAUSE");
 }
 
 void Game::show_stats()
@@ -149,6 +198,76 @@ void Game::show_stats()
 	cout << "Knowledge: " << player.get_knowledge() << endl;
 	cout << "Damage: " << player.get_damage() << endl;
 	system("PAUSE");
+}
+
+void Game::view_item(int i)
+{
+	system("CLS");
+	viewChanged = true;
+	Item cur_item = player.get_inventory()[i];
+
+	bool viewing = true;
+	while (viewing)
+	{
+		if (viewChanged)
+		{
+			system("CLS");
+			cout << "Item Name: " << cur_item.get_name() << endl;
+			cout << "Item Description: " << cur_item.get_desc() << endl;
+			cout << "Item Type: " << cur_item.get_type() << endl;
+			cout << "Health Mod: " << cur_item.get_health_mod() << endl;
+			cout << "Strength Mod: " << cur_item.get_strength_mod() << endl;
+			cout << "Dexterity Mod: " << cur_item.get_dex_mod() << endl;
+			cout << "Evasion Mod: " << cur_item.get_evasion_mod() << endl;
+			cout << "Fortitude Mod: " << cur_item.get_fortitude_mod() << endl;
+			cout << "Leech Mod: " << cur_item.get_leech_mod() << endl; 
+			cout << "Damage: " << cur_item.get_damage_mod() << endl;
+
+			cout << "\nPress 1 to equip this item";
+			cout << "\nPress x to return";
+
+			viewChanged = false;
+		}
+		if (GetAsyncKeyState(0x31) & 0x8000 && check_press())
+		{
+			equip_item(cur_item);
+			viewChanged = true;
+			viewing = false;
+		}
+		if (GetAsyncKeyState(0x58) & 0x8000 && check_press())
+		{
+			viewChanged = true;
+			viewing = false;
+			break;
+		}
+		Sleep(1);
+	}
+}
+
+void Game::equip_item(Item i)
+{
+	item_type cur_type = i.get_type();
+	if (cur_type == Item::bow || cur_type == Item::sword)
+	{
+		player.add_to_inventory(player.get_equipped()[3]);
+		player.set_equipped(i, 3);
+	}
+	else if (cur_type == Item::helmet)
+	{
+		player.add_to_inventory(player.get_equipped()[0]);
+		player.set_equipped(i, 0);
+	}
+	else if (cur_type == Item::breastplate || cur_type == Item::potion_set)
+	{
+		player.add_to_inventory(player.get_equipped()[1]);
+		player.set_equipped(i, 1);
+	}
+	else if (cur_type == Item::greaves)
+	{
+		player.add_to_inventory(player.get_equipped()[2]);
+		player.set_equipped(i, 2);
+	}
+	player.remove_from_inventory(i);
 }
 
 void Game::debug_print_map()
@@ -192,6 +311,7 @@ void Game::debug_print_map()
 	for (int i = event_stack.size() - 1; i > -1; i--)
 	{
 		cout << event_stack[i] << endl;
+		event_stack.pop_back();
 	}
 	cout << "Press 1 to view Inventory\n";
 	cout << "Press 2 to view Stats\n";
@@ -264,23 +384,12 @@ void Game::add_event(string m, bool repeats)
 		}
 	}
 	event_stack.push_back(m);
-}
-
-void Game::debug_add_event(string m, bool &change)
-{
-	if (event_stack.empty()) { event_stack.push_back(m); return; }
-
-	for (int i = 0; i < event_stack.size(); i++)
-	{
-		if (event_stack[i] == m) return;
-	}
-	event_stack.push_back(m);
-	change = true;
+	viewChanged = true;
 }
 
 void Game::move_player(vector<int> offset)
 {
-	event_stack.clear();
+	viewChanged = true;
 
 	vector<int> new_pos = { player.get_pos()[0] + offset[0], player.get_pos()[1] + offset[1] };
 	if (new_pos[1] > map.size() - 1 || new_pos[1] < 0 || new_pos[0] > map[0].size() - 1 || new_pos[0] < 0)
@@ -304,7 +413,7 @@ void Game::level_player()
 {
 	system("CLS");
 	bool leveling = true;
-	bool has_changed = true;
+	bool viewChanged = true;
 
 	int init_points = player.get_attr_points();
 	int cur_points = init_points;
@@ -313,7 +422,7 @@ void Game::level_player()
 	vector<double> new_stats = base_stats;
 	while (leveling)
 	{
-		if (has_changed)
+		if (viewChanged)
 		{
 			system("CLS");
 
@@ -328,62 +437,62 @@ void Game::level_player()
 			cout << "7. Knowledge: " << player.get_knowledge() + new_stats[6] << endl;
 			cout << "\nPress x to return to the game";
 
-			has_changed = false;
+			viewChanged = false;
 		}
 		
 		// Fix cpu usage
 		if (cur_points > 0)
 		{
-			if (GetKeyState(0x31) & 0x8000)
+			if (GetKeyState(0x31) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[0]++;
-				has_changed = true;
+				viewChanged = true;
 			}
-			else if (GetKeyState(0x32) & 0x8000)
+			else if (GetKeyState(0x32) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[1]++;
-				has_changed = true;
+				viewChanged = true;
 			}
-			else if (GetKeyState(0x33) & 0x8000)
+			else if (GetKeyState(0x33) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[2]++;
-				has_changed = true;
+				viewChanged = true;
 			}
-			else if (GetKeyState(0x34) & 0x8000)
+			else if (GetKeyState(0x34) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[3]++;
-				has_changed = true;
+				viewChanged = true;
 			}
-			else if (GetKeyState(0x35) & 0x8000)
+			else if (GetKeyState(0x35) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[4]++;
-				has_changed = false;
+				viewChanged = false;
 			}
-			else if (GetKeyState(0x36) & 0x8000)
+			else if (GetKeyState(0x36) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[5]++;
-				has_changed = true;
+				viewChanged = true;
 			}
-			else if (GetKeyState(0x37) & 0x8000)
+			else if (GetKeyState(0x37) & 0x8000 && check_press())
 			{
 				cur_points--;
 				new_stats[6]++;
-				has_changed = true;
+				viewChanged = true;
 			}
 		}
-		if (GetKeyState(0x43) & 0x8000)
+		if (GetKeyState(0x43) & 0x8000 && check_press())
 		{
 			cur_points = init_points;
 			new_stats = base_stats;
-			has_changed = true;
+			viewChanged = true;
 		}
-		else if (GetAsyncKeyState(0x58) & 0x8000)
+		else if (GetAsyncKeyState(0x58) & 0x8000 && check_press())
 		{
 			leveling = false;
 		}
@@ -410,7 +519,12 @@ void Game::run_game()
 	random_device rd;
 	mt19937 mt(rd());
 	uniform_int_distribution<int> dropGen(0, 100);
-	bool has_changed = true;
+	viewChanged = true;
+
+	for (int i = 0; i < 18; i++)
+	{
+		player.add_to_inventory(*generate_item());
+	}
 	// TODO: Fix super fast keyboard input, fix some events not showing up due to has_changed not changing
 	while (playing)
 	{
@@ -428,14 +542,14 @@ void Game::run_game()
 					player.add_to_inventory(*cur_drop.to_drop);
 					add_event("You got a new item!", true);
 				}
-				has_changed = true;
+				viewChanged = true;
 			}
 			continue;
 		}
 
 		if (player.get_attr_points() > 0)
 		{
-			debug_add_event("You have attribute points to spend! Press L to spend them", has_changed);
+			add_event("You have attribute points to spend! Press L to spend them");
 		}
 
 		if (cur_tile->type_id == tile::tile_treasure)
@@ -443,58 +557,53 @@ void Game::run_game()
 			cur_tile->type_id = tile::tile_empty;
 			player.add_to_inventory(*generate_item());
 			add_event("You found treasure! An item has been added to your inventory.");
-			has_changed = true;
+			viewChanged = true;
 		}
 		if (cur_tile->type_id == tile::tile_monster || cur_tile->type_id == tile::tile_treas_monst)
 		{
 			cur_tile->type_id = tile::tile_empty;
 			cur_battle.toggle_status();
-			has_changed = true;
+			viewChanged = true;
 			continue;
 		}
 		if (cur_tile->type_id == tile::tile_end)
 		{
-			debug_add_event("You have found the exit, press x to move to the next level", has_changed);
+			add_event("You have found the exit, press x to move to the next level");
 		}
 
-		if (GetAsyncKeyState(0x31) & 0x8000)
+		if (GetAsyncKeyState(0x31) & 0x8000 && check_press())
 		{
-			has_changed = true;
+			viewChanged = true;
 			show_inventory();
 		}
-		else if (GetAsyncKeyState(0x32) & 0x8000)
+		else if (GetAsyncKeyState(0x32) & 0x8000 && check_press())
 		{
-			has_changed = true;
+			viewChanged = true;
 			show_stats();
 		}
-		else if (GetAsyncKeyState(0x4C) && player.get_attr_points() > 0)
+		else if (GetAsyncKeyState(0x4C) && player.get_attr_points() > 0 && check_press())
 		{
-			has_changed = true;
-			event_stack.clear();
+			viewChanged = true;
 			level_player();
 		}
 
-		if (GetAsyncKeyState(0x57) & 0x8000)
+		if (GetAsyncKeyState(0x57) & 0x8000 && check_press())
 		{
 			move_player({ 0, -1 });
-			has_changed = true;
 		}
-		else if (GetAsyncKeyState(0x53) & 0x8000)
+		else if (GetAsyncKeyState(0x53) & 0x8000 && check_press())
 		{
 			move_player({ 0, 1 });
-			has_changed = true;
 		}
-		if (GetAsyncKeyState(0x41) & 0x8000)
+		if (GetAsyncKeyState(0x41) & 0x8000 && check_press())
 		{
 			move_player({ -1,0 });
-			has_changed = true;
 		}
-		else if (GetAsyncKeyState(0x44) & 0x8000)
+		else if (GetAsyncKeyState(0x44) & 0x8000 && check_press())
 		{
 			move_player({ 1,0 });
-			has_changed = true;
 		}
-		if (has_changed) { system("CLS"); debug_print_map(); has_changed = false; };
+		if (viewChanged) { system("CLS"); debug_print_map(); viewChanged = false; };
 		Sleep(1);
 	}
 }
@@ -503,4 +612,16 @@ Game::Game()
 	: cur_battle(&player, generate_monster()), raw_map(15, 15)
 {
 	generate_map();
+}
+
+bool Game::check_press()
+{
+	millisecs_t duration(std::chrono::duration_cast<millisecs_t>(chrono::steady_clock::now() - keyPressed));
+	if (duration.count() > 50)
+	{
+		keyPressed = chrono::steady_clock::now();
+		return true;
+	}
+	keyPressed = chrono::steady_clock::now();
+	return false;
 }

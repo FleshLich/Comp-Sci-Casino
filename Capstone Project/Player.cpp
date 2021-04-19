@@ -65,6 +65,11 @@ void Player::set_attr_points(int i)
 	attribute_points = i;
 }
 
+void Player::set_equipped(Item it, int i)
+{
+	equipped[i] = it;
+}
+
 void Player::set_pos(vector<int> p)
 {
 	cur_pos = p;
@@ -84,6 +89,18 @@ void Player::add_stats(vector<double> v)
 void Player::add_to_inventory(Item i)
 {
 	inventory.push_back(i);
+}
+
+void Player::remove_from_inventory(Item it)
+{
+	for (int i = 0; i < inventory.size(); i++)
+	{
+		if (it == inventory[i])
+		{
+			inventory.erase(inventory.begin(), inventory.begin() + i);
+			return;
+		}
+	}
 }
 
 Player::Player(string n, int l, vector<double> stats, vector<double> mods) : Entity(n, l, stats, mods)

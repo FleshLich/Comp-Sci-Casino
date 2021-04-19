@@ -27,6 +27,8 @@ struct item_type
 class Item
 {
 public:
+	int get_id() const;
+
 	string get_name() const;
 	string get_desc() const;
 
@@ -47,9 +49,13 @@ public:
 	void set_type(item_type);
 	void set_knowledge_req(int);
 
+	bool operator==(Item);
+
 	Item(string name = "", string desc = "", vector<double> modifier_vector = {0,0,0,0,0,0,0});
 
 	static string rarity_to_string(rarity_type);
+
+	static int global_id_space;
 
 	static const rarity_type rarity_n;
 	static const rarity_type rarity_un;
@@ -68,6 +74,7 @@ public:
 
 	static const Item empty_item;
 private:
+	int id;
 	string name;
 	string description;
 

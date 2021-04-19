@@ -25,6 +25,8 @@ ostream& operator<<(ostream& output, const item_type& i)
 	return output;
 }
 
+int Item::global_id_space = 0;
+
 const rarity_type Item::rarity_n{ 1 };
 const rarity_type Item::rarity_un{ 2 };
 const rarity_type Item::rarity_r{ 3 };
@@ -41,6 +43,11 @@ const item_type Item::potion_set{ "potion set" };
 const vector<item_type> Item::all_types = { Item::sword, Item::bow, Item::helmet, Item::breastplate, Item::greaves, Item::potion_set };
 
 const Item Item::empty_item;
+
+int Item::get_id() const
+{
+	return id;
+}
 
 string Item::get_name() const
 {
@@ -117,8 +124,16 @@ void Item::set_knowledge_req(int i)
 	knowledge_req = i;
 }
 
+bool Item::operator==(Item i)
+{
+	return this->id == i.get_id();
+}
+
 Item::Item(string n, string d, vector<double> mv)
 {
+	id = Item::global_id_space;
+	Item::global_id_space++;
+
 	name = n;
 	description = d;
 

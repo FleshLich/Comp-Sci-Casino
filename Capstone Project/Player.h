@@ -23,11 +23,15 @@ public:
 	void set_knowledge(int);
 	void set_attr_points(int);
 
+	void set_equipped(Item, int);
+
 	void set_pos(vector<int>);
 
 	void add_stats(vector<double> s = {0, 0, 0, 0, 0, 0, 0});
 
 	void add_to_inventory(Item);
+
+	void remove_from_inventory(Item);
 
 	Player(string n = "Player", int l = 1, vector<double> stats = { 20, 0, 0, 0, 0, 0, 0 }, vector<double> mods = { 0,0,0,0,0,0,0 });
 protected:

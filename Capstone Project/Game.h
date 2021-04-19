@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <chrono>
+#include <Windows.h>
 #include "Player.h"
 #include "Monster.h"
 #include "Item.h"
@@ -37,6 +39,9 @@ public:
 	void show_inventory();
 	void show_stats();
 
+	void view_item(int index);
+	void equip_item(Item);
+
 	void debug_print_map();
 
 	void load_items();
@@ -71,7 +76,6 @@ private:
 	vector<string> event_stack;
 
 	void add_event(string, bool repeats = false);
-	void debug_add_event(string, bool&);
 
 	Player player;
 
@@ -88,4 +92,11 @@ private:
 	Battle cur_battle;
 
 	bool playing = false;
+	bool viewChanged = false;
+
+	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point keyPressed = std::chrono::steady_clock::now();
+
+	bool check_press();
 };
