@@ -129,8 +129,8 @@ void Game::show_inventory()
 {
 	system("CLS");
 	vector<Item> cur_inv = player.get_inventory();
-	int page = 1;
-	int pages = (cur_inv.size() / 9) + 1; pages == 0 ? 1 : pages;
+	unsigned int page = 1;
+	unsigned int pages = (cur_inv.size() + 8 - 1) / 8;
 	bool showing_item = false;
 	bool viewing = true;
 	viewChanged = true;
@@ -140,12 +140,16 @@ void Game::show_inventory()
 	{
 		if (viewChanged)
 		{
+			pages = (cur_inv.size() + 8 - 1) / 8;
+			cur_inv = player.get_inventory();
+
 			system("CLS");
-			for (int i = 0 + (10 * (page - 1)); i < ((cur_inv.size() / 9) * 9) / pages; i++)
+			for (unsigned int i = 0 + (8 * (page - 1)); i < 8 * page; i++)
 			{
+				if (i >= player.get_inventory().size()) break;
 				if (player.get_knowledge() >= cur_inv[i].get_knowledge_req())
 				{
-					cout << (i / ((page > 1) ? 9 : 1)) + 1 << ". " << cur_inv[i].get_name() << " " << Item::rarity_to_string(cur_inv[i].get_rarity()) << " " << cur_inv[i].get_desc() << endl;
+					cout << i - (8 * (page - 1)) + 1 << ". " << cur_inv[i].get_name() << " " << Item::rarity_to_string(cur_inv[i].get_rarity()) << " " << cur_inv[i].get_desc() << endl;
 					continue;
 				}
 				cout << "????? ?????(Your knowledge level is too low)\n";
@@ -153,30 +157,30 @@ void Game::show_inventory()
 			cout << "\nPage " << page << " of " << pages;
 
 			cout << "\nPress the corresponding key to view an item.";
-			cout << "\nPress the right and left arrow key to go back and forth between pages";
+			cout << "\nPress the left and right arrow keys to go back and forth between pages";
 			cout << "\nPress x to exit";
 
 			viewChanged = false;
 		}
 		for (int i = 0 ; i < keys.size(); i++)
 		{
-			if (GetAsyncKeyState(keys[i]) & 0x8000 && check_press() && (i + (10 * (page - 1))) < player.get_inventory().size())
+			if (GetAsyncKeyState(keys[i]) & 0x8000 && check_press() && i + (8 * (page - 1)) < player.get_inventory().size())
 			{
 				viewChanged = true;
-				view_item(i);//(i + (10 * (page - 1))) + 1);
+				view_item((i - 1) + (8 * (page - 1)));
 			}
 		}
-		if (GetAsyncKeyState(0x25) & 0x8000 && check_press() && page != 1)
+		if (GetKeyState(0x25) & 0x8000 && check_press() && page != 1)
 		{
 			viewChanged = true;
 			page--;
 		}
-		else if (GetAsyncKeyState(0x27) & 0x8000 && check_press() && page != pages)
+		else if (GetKeyState(0x27) & 0x8000 && check_press() && page != pages)
 		{
 			viewChanged = true;
 			page++;
 		}
-		if (GetAsyncKeyState(0x58) & 0x8000 && check_press())
+		if (GetKeyState(0x58) & 0x8000 && check_press())
 		{
 			viewChanged = true;
 			viewing = false;
@@ -200,11 +204,13 @@ void Game::show_stats()
 	system("PAUSE");
 }
 
-void Game::view_item(int i)
+void Game::view_item(int i, bool override_knowledge)
 {
+	Item cur_item = player.get_inventory()[i];
+	if (cur_item.get_knowledge_req() > player.get_knowledge() && !override_knowledge) return;
+
 	system("CLS");
 	viewChanged = true;
-	Item cur_item = player.get_inventory()[i];
 
 	bool viewing = true;
 	while (viewing)
@@ -228,13 +234,13 @@ void Game::view_item(int i)
 
 			viewChanged = false;
 		}
-		if (GetAsyncKeyState(0x31) & 0x8000 && check_press())
+		if (GetKeyState(0x31) & 0x8000 && check_press())
 		{
 			equip_item(cur_item);
 			viewChanged = true;
 			viewing = false;
 		}
-		if (GetAsyncKeyState(0x58) & 0x8000 && check_press())
+		if (GetKeyState(0x58) & 0x8000 && check_press())
 		{
 			viewChanged = true;
 			viewing = false;
@@ -525,10 +531,16 @@ void Game::run_game()
 	{
 		player.add_to_inventory(*generate_item());
 	}
-	// TODO: Fix super fast keyboard input, fix some events not showing up due to has_changed not changing
+	// TODO: Fix super fast keyboard input
 	while (playing)
 	{
 		tile* cur_tile = &map[player.get_pos()[1]][player.get_pos()[0]];
+		if (player.get_xp() >= player.get_max_xp())
+		{
+			player.set_level(player.get_level() + 1);
+			player.set_attr_points(3);
+			player.set_max_xp(player.get_max_xp() * 3);
+		}
 		if (false)//cur_battle.get_status())
 		{
 			system("CLS");
@@ -617,7 +629,7 @@ Game::Game()
 bool Game::check_press()
 {
 	millisecs_t duration(std::chrono::duration_cast<millisecs_t>(chrono::steady_clock::now() - keyPressed));
-	if (duration.count() > 50)
+	if (duration.count() > 75)
 	{
 		keyPressed = chrono::steady_clock::now();
 		return true;

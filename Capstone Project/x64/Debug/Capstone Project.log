@@ -1,15 +1,2 @@
-﻿  Game.cpp
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(22,70): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(22,70): warning C4267:         with
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(22,70): warning C4267:         [
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(22,70): warning C4267:             _Ty=int
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(22,70): warning C4267:         ]
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(49,45): warning C4838:  conversion from 'int' to 'double' requires a narrowing conversion
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(132,38): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(310,37): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(349,64): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(349,64): warning C4267:         with
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(349,64): warning C4267:         [
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(349,64): warning C4267:             _Ty=int
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(349,64): warning C4267:         ]
-  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+﻿  Player.cpp
+  Capstone Project.vcxproj -> D:\Misc Programming Projects\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

@@ -39,7 +39,7 @@ public:
 	void show_inventory();
 	void show_stats();
 
-	void view_item(int index);
+	void view_item(int index, bool override_knowledge = false);
 	void equip_item(Item);
 
 	void debug_print_map();

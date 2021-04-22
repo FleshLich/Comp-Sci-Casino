@@ -12,7 +12,7 @@ double Player::get_max_xp() const
 
 double Player::get_damage()
 {
-	return equipped[3].get_damage_mod() + (equipped[3].get_type() == Item::sword) ? get_strength() : get_dexterity();
+	return equipped[3].get_damage_mod() + ((equipped[3].get_type() == Item::sword) ? get_strength() : get_dexterity());
 }
 
 int Player::get_knowledge() const
@@ -88,6 +88,7 @@ void Player::add_stats(vector<double> v)
 
 void Player::add_to_inventory(Item i)
 {
+	if (i.get_id() == 0) return;
 	inventory.push_back(i);
 }
 
@@ -97,7 +98,7 @@ void Player::remove_from_inventory(Item it)
 	{
 		if (it == inventory[i])
 		{
-			inventory.erase(inventory.begin(), inventory.begin() + i);
+			inventory.erase(inventory.begin() + i);
 			return;
 		}
 	}
