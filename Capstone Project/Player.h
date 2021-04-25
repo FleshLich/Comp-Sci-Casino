@@ -39,7 +39,7 @@ protected:
 	double max_xp = 25;
 
 	int knowledge = 1;
-	int attribute_points = 10;
+	int attribute_points = 15;
 	int points_per_level = 5;
 	vector<Item> inventory;
 	// vector should be: helm, chest, legs, weapon

@@ -12,6 +12,10 @@ double Player::get_max_xp() const
 
 double Player::get_damage()
 {
+	if (equipped[3] == Item::empty_item)
+	{
+		return 1;
+	}
 	return equipped[3].get_damage_mod() + ((equipped[3].get_type() == Item::sword) ? get_strength() : get_dexterity());
 }
 
@@ -67,6 +71,20 @@ void Player::set_attr_points(int i)
 
 void Player::set_equipped(Item it, int i)
 {
+	health_mod -= equipped[i].get_health_mod();
+	strength_mod -= equipped[i].get_strength_mod();
+	dex_mod -= equipped[i].get_dex_mod();
+	evasion_mod -= equipped[i].get_evasion_mod();
+	fortitude_mod -= equipped[i].get_fortitude_mod();
+	leech_mod -= equipped[i].get_leech_mod();
+
+	health_mod += it.get_health_mod();
+	strength_mod += it.get_strength_mod();
+	dex_mod += it.get_dex_mod();
+	evasion_mod += it.get_evasion_mod();
+	fortitude_mod += it.get_fortitude_mod();
+	leech_mod += it.get_leech_mod();
+
 	equipped[i] = it;
 }
 

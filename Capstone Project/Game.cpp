@@ -23,7 +23,7 @@ Item* Game::generate_item(int r)
 	uniform_int_distribution<int> statGen(0, 3);
 
 	item_type temp_type = Item::all_types[typeGen(mt)];
-	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 1 : 0) });
+	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 2 : 0) });
 	temp->set_knowledge_req(statGen(mt) * r);
 	temp->set_type(temp_type);
 	temp->set_rarity(rarity_type{r});
@@ -112,7 +112,7 @@ void Game::parse_map()
 			else if (num > 95)
 			{
 				new_tile.treasure = generate_item();
-				new_tile.type_id = tile::tile_treas_monst;
+				new_tile.type_id = tile::tile_heal;
 			}
 			else
 			{
@@ -164,7 +164,7 @@ void Game::show_inventory()
 		}
 		for (int i = 0 ; i < keys.size(); i++)
 		{
-			if (GetAsyncKeyState(keys[i]) & 0x8000 && check_press() && i + (8 * (page - 1)) < player.get_inventory().size())
+			if (GetAsyncKeyState(keys[i]) & 0x8000 && check_press() && (i - 1) + (8 * (page - 1)) < player.get_inventory().size())
 			{
 				viewChanged = true;
 				view_item((i - 1) + (8 * (page - 1)));
@@ -221,13 +221,13 @@ void Game::view_item(int i, bool override_knowledge)
 			cout << "Item Name: " << cur_item.get_name() << endl;
 			cout << "Item Description: " << cur_item.get_desc() << endl;
 			cout << "Item Type: " << cur_item.get_type() << endl;
-			cout << "Health Mod: " << cur_item.get_health_mod() << endl;
+			cout << "Health Mod: " << cur_item.get_health_mod() * 5 << endl;
 			cout << "Strength Mod: " << cur_item.get_strength_mod() << endl;
 			cout << "Dexterity Mod: " << cur_item.get_dex_mod() << endl;
 			cout << "Evasion Mod: " << cur_item.get_evasion_mod() << endl;
 			cout << "Fortitude Mod: " << cur_item.get_fortitude_mod() << endl;
 			cout << "Leech Mod: " << cur_item.get_leech_mod() << endl; 
-			cout << "Damage: " << cur_item.get_damage_mod() << endl;
+			if (cur_item.get_type() == Item::sword || cur_item.get_type() == Item::bow) cout << "Damage: " << cur_item.get_damage_mod() << endl;
 
 			cout << "\nPress 1 to equip this item";
 			cout << "\nPress x to return";
@@ -295,7 +295,7 @@ void Game::debug_print_map()
 			case tile::tile_treasure:
 				cout << "O";
 				break;
-			case tile::tile_treas_monst:
+			case tile::tile_heal:
 				cout << "*";
 				break;
 			case tile::tile_wall:
@@ -477,7 +477,7 @@ void Game::level_player()
 			{
 				cur_points--;
 				new_stats[4]++;
-				viewChanged = false;
+				viewChanged = true;
 			}
 			else if (GetKeyState(0x36) & 0x8000 && check_press())
 			{
@@ -527,13 +527,16 @@ void Game::run_game()
 	uniform_int_distribution<int> dropGen(0, 100);
 	viewChanged = true;
 
-	for (int i = 0; i < 18; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		player.add_to_inventory(*generate_item());
 	}
+	add_event("Welcome... Check your inventory to see your starting items.");
 	// TODO: Fix super fast keyboard input
 	while (playing)
 	{
+		if (player.get_health() < 1) break;
+
 		tile* cur_tile = &map[player.get_pos()[1]][player.get_pos()[0]];
 		if (player.get_xp() >= player.get_max_xp())
 		{
@@ -541,7 +544,7 @@ void Game::run_game()
 			player.set_attr_points(3);
 			player.set_max_xp(player.get_max_xp() * 3);
 		}
-		if (false)//cur_battle.get_status())
+		if (cur_battle.get_status())
 		{
 			system("CLS");
 			cur_battle.do_turn(1);
@@ -571,14 +574,21 @@ void Game::run_game()
 			add_event("You found treasure! An item has been added to your inventory.");
 			viewChanged = true;
 		}
-		if (cur_tile->type_id == tile::tile_monster || cur_tile->type_id == tile::tile_treas_monst)
+		else if (cur_tile->type_id == tile::tile_heal)
+		{
+			cur_tile->type_id = tile::tile_empty;
+			viewChanged = true;
+			add_event("10 points have been added to your health pool");
+			player.set_health(player.get_health() + 10);
+		}
+		else if (cur_tile->type_id == tile::tile_monster || cur_tile->type_id == tile::tile_treas_monst)
 		{
 			cur_tile->type_id = tile::tile_empty;
 			cur_battle.toggle_status();
 			viewChanged = true;
 			continue;
 		}
-		if (cur_tile->type_id == tile::tile_end)
+		else if (cur_tile->type_id == tile::tile_end)
 		{
 			add_event("You have found the exit, press x to move to the next level");
 		}

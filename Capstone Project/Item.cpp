@@ -74,6 +74,11 @@ item_type Item::get_type() const
 	return type;
 }
 
+vector<double> Item::get_mods() const
+{
+	return { health_mod, strength_mod, dex_mod, evasion_mod, fortitude_mod, leech_mod, damage_mod };
+}
+
 double Item::get_health_mod() const
 {
 	return health_mod;

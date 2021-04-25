@@ -1,6 +1,5 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <random>
 #include "Blackjack.h"
 
 using namespace std;
@@ -49,10 +48,12 @@ void Blackjack::print_game()
 
 int Blackjack::get_card()
 {
-	srand((unsigned)time(0) + rand());
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> cardGen(1, 10);
 	
 	// Generate a number between 1 and 10
-	int card = rand() % 10 + 1;
+	int card = cardGen(mt);
 
 	if (card_amounts[card][1] > 0)
 	{

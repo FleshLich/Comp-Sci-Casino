@@ -23,6 +23,7 @@ struct tile
 	static const int tile_treasure = 3;
 	static const int tile_treas_monst = 4;
 	static const int tile_wall = 5;
+	static const int tile_heal = 6;
 	static const int tile_start = -1;
 	static const int tile_end = -2;
 };

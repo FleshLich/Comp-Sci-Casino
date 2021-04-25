@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -53,6 +54,8 @@ public:
 
 	// Stat and mod vector should be {health, strength, dexterity, evasion, fortitude, leech, base}
 	Entity(string name = "", int level = 0, vector<double> stats = { 0, 0, 0, 0, 0, 0, 0 }, vector<double> mods = {0,0,0,0,0,0,0});
+
+	vector<string> entity_event_stack;
 protected:
 	string name;
 

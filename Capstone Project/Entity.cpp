@@ -12,7 +12,7 @@ int Entity::get_level() const
 
 double Entity::get_health() const
 {
-	return health + get_health_mod();
+	return health + (get_health_mod() * 5);
 }
 
 double Entity::get_strength() const
@@ -136,11 +136,66 @@ void Entity::set_base_damage(double i)
 	base_damage = i;
 }
 
+void Entity::set_mods(vector<double> mv)
+{
+	health_mod = mv[0];
+	strength_mod = mv[1];
+	dex_mod = mv[2];
+	evasion_mod = mv[3];
+	fortitude_mod = mv[4];
+	leech_mod = mv[5];
+	base_damage_mod = mv[6];
+}
+
+void Entity::set_health_mod(double h)
+{
+	health_mod = h;
+}
+
+void Entity::set_strength_mod(double s)
+{
+	strength_mod = s;
+}
+
+void Entity::set_dexterity_mod(double d)
+{
+	dex_mod = d;
+}
+
+void Entity::set_evasion_mod(double e)
+{
+	evasion = e;
+}
+
+void Entity::set_fortitude_mod(double f)
+{
+	fortitude = f;
+}
+
+void Entity::set_leech_mod(double l)
+{
+	leech_mod = l;
+}
+
+void Entity::set_base_damage_mod(double bd)
+{
+	base_damage_mod = bd;
+}
+
 void Entity::do_damage(double d)
 {
-	health -= d;
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> chanceGen(0, 100);
 
-	//Implent fortitude reduction and evasion dodge
+	if (chanceGen(mt) < evasion)
+	{
+		entity_event_stack.push_back(name + " dodged the attack!");
+		return;
+	}
+	if (fortitude > 0) entity_event_stack.push_back(name + "'s strong body prevented " + to_string((d * (fortitude * 0.01))) + " points of damage");
+	health -= (d - (d * (fortitude * 0.01)));
+	if (health < 1) health = 0;
 }
 
 Entity::Entity(string n, int l, vector<double> stats, vector<double> mods)

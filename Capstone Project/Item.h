@@ -37,6 +37,7 @@ public:
 	rarity_type get_rarity() const;
 	item_type get_type() const;
 
+	vector<double> get_mods() const;
 	double get_health_mod() const;
 	double get_strength_mod() const;
 	double get_dex_mod() const;
@@ -53,6 +54,7 @@ public:
 
 	Item(string name = "", string desc = "", vector<double> modifier_vector = {0,0,0,0,0,0,0});
 
+	// converts rarity type to string 
 	static string rarity_to_string(rarity_type);
 
 	static int global_id_space;
