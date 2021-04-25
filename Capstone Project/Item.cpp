@@ -32,6 +32,7 @@ const rarity_type Item::rarity_un{ 2 };
 const rarity_type Item::rarity_r{ 3 };
 const rarity_type Item::rarity_l{ 4 };
 const rarity_type Item::rarity_e{ 5 };
+const rarity_type Item::rarity_rand{ -1 };
 
 const item_type Item::sword{ "sword" };
 const item_type Item::bow{ "bow" };

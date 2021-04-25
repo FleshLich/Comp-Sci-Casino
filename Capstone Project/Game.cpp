@@ -1,10 +1,18 @@
 #include <random>
 #include <iostream>
 #include <chrono>
+#include <cwchar>
 #include <Windows.h>
 #include "Game.h"
 
 typedef std::chrono::duration<int, std::milli> millisecs_t;
+
+int tile::global_id_space = 0;
+
+bool tile::operator==(tile t)
+{
+	return this->id == t.id;
+}
 
 void Game::generate_map()
 {
@@ -21,6 +29,33 @@ Item* Game::generate_item(int r)
 	mt19937 mt(rd());
 	uniform_int_distribution<int> typeGen(0, Item::all_types.size() - 1);
 	uniform_int_distribution<int> statGen(0, 3);
+
+	if (r == -1)
+	{
+		uniform_int_distribution<int> chanceGen(0, 100);
+		int num = chanceGen(mt);
+
+		if (num < 50 - (10 * (depth - 1)))
+		{
+			r = 1;
+		}
+		else if (num < 80 - (5 * (depth - 1)))
+		{
+			r = 2;
+		}
+		else if (num < 90 - (3 * (depth - 1)))
+		{
+			r = 3;
+		}
+		else if (num < 95 - (2 * (depth - 1)))
+		{
+			r = 4;
+		}
+		else if (num <= 100 - (1 * (depth - 1)))
+		{
+			r = 5;
+		}
+	}
 
 	item_type temp_type = Item::all_types[typeGen(mt)];
 	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 2 : 0) });
@@ -75,6 +110,9 @@ void Game::parse_map()
 		for (int x = 0; x < raw[y].size(); x++)
 		{
 			tile new_tile;
+			new_tile.id = tile::global_id_space;
+			tile::global_id_space++;
+
 			new_tile.pos = { x, y };
 			if (y == map_end[1] && x == map_end[0])
 			{
@@ -127,6 +165,8 @@ void Game::parse_map()
 // Fix inventory display, equip, and modifier bugs
 void Game::show_inventory()
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	system("CLS");
 	vector<Item> cur_inv = player.get_inventory();
 	unsigned int page = 1;
@@ -144,16 +184,19 @@ void Game::show_inventory()
 			cur_inv = player.get_inventory();
 
 			system("CLS");
-			for (unsigned int i = 0 + (8 * (page - 1)); i < 8 * page; i++)
+			for (int i = 0 + (8 * (page - 1)); i < 8 * page; i++)
 			{
 				if (i >= player.get_inventory().size()) break;
+				SetConsoleTextAttribute(hConsole, 0 + (15 - (cur_inv[i].get_rarity().type - 1)) * 16);
 				if (player.get_knowledge() >= cur_inv[i].get_knowledge_req())
 				{
-					cout << i - (8 * (page - 1)) + 1 << ". " << cur_inv[i].get_name() << " " << Item::rarity_to_string(cur_inv[i].get_rarity()) << " " << cur_inv[i].get_desc() << endl;
+					cout << i - (8 * (page - 1)) + 1 << ". " << cur_inv[i].get_name() << " " << cur_inv[i].get_desc() << endl;
 					continue;
 				}
+				SetConsoleTextAttribute(hConsole, 15);
 				cout << "????? ?????(Your knowledge level is too low)\n";
 			}
+			SetConsoleTextAttribute(hConsole, 15);
 			cout << "\nPage " << page << " of " << pages;
 
 			cout << "\nPress the corresponding key to view an item.";
@@ -204,6 +247,28 @@ void Game::show_stats()
 	system("PAUSE");
 }
 
+void Game::show_help()
+{
+	system("CLS");
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	SetConsoleTextAttribute(hConsole, 15 + 2 * 16);
+	cout << "X"; SetConsoleTextAttribute(hConsole, 15); cout << " = This tile shows where you entered from." << endl;
+	SetConsoleTextAttribute(hConsole, 15 + 15 * 16);
+	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These tiles are walls that cannot be moved through." << endl;
+	SetConsoleTextAttribute(hConsole, 12 + 12 * 16);
+	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These are monster tiles. Upon entering, a battle will start so be prepared!" << endl;
+	SetConsoleTextAttribute(hConsole, 9 + 9 * 16);
+	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These tiles are treasure tiles. Entering one will give you a random piece of equipment." << endl;
+	SetConsoleTextAttribute(hConsole, 10 + 10 * 16); 
+	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These tiles are healing tiles. Stepping in one will give you 10 additional points of health." << endl;
+	SetConsoleTextAttribute(hConsole, 15 + 3 * 16);
+	cout << "X"; SetConsoleTextAttribute(hConsole, 15); cout << " = These tiles are your objective. Stand on top of one and press X to move to the next level." << endl;
+	cout << "P = This is your character and indicates where you are." << endl;
+	cout << "Use the W, A, S, D keys to move up, left, down, and right respectively." << endl;
+	system("PAUSE");
+}
+
 void Game::view_item(int i, bool override_knowledge)
 {
 	Item cur_item = player.get_inventory()[i];
@@ -221,6 +286,7 @@ void Game::view_item(int i, bool override_knowledge)
 			cout << "Item Name: " << cur_item.get_name() << endl;
 			cout << "Item Description: " << cur_item.get_desc() << endl;
 			cout << "Item Type: " << cur_item.get_type() << endl;
+			cout << "Item Rarity: " << Item::rarity_to_string(cur_item.get_rarity()) << endl;
 			cout << "Health Mod: " << cur_item.get_health_mod() * 5 << endl;
 			cout << "Strength Mod: " << cur_item.get_strength_mod() << endl;
 			cout << "Dexterity Mod: " << cur_item.get_dex_mod() << endl;
@@ -276,6 +342,82 @@ void Game::equip_item(Item i)
 	player.remove_from_inventory(i);
 }
 
+void Game::print_map()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(cfi);
+	cfi.nFont = 0;
+	cfi.dwFontSize.X = 0;                   // Width of each character in the font
+	cfi.dwFontSize.Y = 24;                  // Height
+	cfi.FontFamily = FF_DONTCARE;
+	cfi.FontWeight = FW_NORMAL;
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+
+
+	for (int y = 0; y < map.size(); y++)
+	{
+		SetConsoleTextAttribute(hConsole, 15);
+		for (int x = 0; x < map[y].size(); x++)
+		{
+			SetConsoleTextAttribute(hConsole, 15);
+			if (map[y][x].contains_player) 
+			{ 
+				SetConsoleTextAttribute(hConsole, 15);
+				cout << "P"; 
+				continue; 
+			}
+
+			switch (map[y][x].type_id)
+			{
+			case tile::tile_empty:
+				SetConsoleTextAttribute(hConsole, 0);
+				cout << " ";
+				break;
+			case tile::tile_monster:
+				SetConsoleTextAttribute(hConsole, 12 + 12 * 16);
+				cout << "X";
+				break;
+			case tile::tile_treasure:
+				SetConsoleTextAttribute(hConsole, 9 + 9 * 16);
+				cout << "O";
+				break;
+			case tile::tile_heal:
+				SetConsoleTextAttribute(hConsole, 10 + 10 * 16);
+				cout << "*";
+				break;
+			case tile::tile_wall:
+				SetConsoleTextAttribute(hConsole, 15 + 15 * 16);
+				cout << "#";
+				break;
+			case tile::tile_start:
+				SetConsoleTextAttribute(hConsole, 15 + 2 * 16);
+				cout << "X";
+				break;
+			case tile::tile_end:
+				SetConsoleTextAttribute(hConsole, 15 + 3 * 16);
+				cout << "X";
+				break;
+			default:
+				break;
+			}
+		}
+		cout << endl;
+	}
+	SetConsoleTextAttribute(hConsole, 15);
+	cout << endl;
+	for (int i = event_stack.size() - 1; i > -1; i--)
+	{
+		cout << event_stack[i] << endl;
+		event_stack.pop_back();
+	}
+	// Prettify this
+	cout << "Press 1 to view Inventory\n";
+	cout << "Press 2 to view Stats\n";
+	cout << "Press 3 to view Help\n";
+}
+
 void Game::debug_print_map()
 {
 	for (int y = 0; y < map.size(); y++)
@@ -321,6 +463,7 @@ void Game::debug_print_map()
 	}
 	cout << "Press 1 to view Inventory\n";
 	cout << "Press 2 to view Stats\n";
+	cout << "Press 3 to view Help\n";
 }
 
 void Game::load_items()
@@ -395,8 +538,6 @@ void Game::add_event(string m, bool repeats)
 
 void Game::move_player(vector<int> offset)
 {
-	viewChanged = true;
-
 	vector<int> new_pos = { player.get_pos()[0] + offset[0], player.get_pos()[1] + offset[1] };
 	if (new_pos[1] > map.size() - 1 || new_pos[1] < 0 || new_pos[0] > map[0].size() - 1 || new_pos[0] < 0)
 	{
@@ -409,7 +550,7 @@ void Game::move_player(vector<int> offset)
 		return;
 	}
 	
-
+	viewChanged = true;
 	map[player.get_pos()[1]][player.get_pos()[0]].contains_player = false;
 	new_tile->contains_player = true;
 	player.set_pos(new_pos);
@@ -446,7 +587,6 @@ void Game::level_player()
 			viewChanged = false;
 		}
 		
-		// Fix cpu usage
 		if (cur_points > 0)
 		{
 			if (GetKeyState(0x31) & 0x8000 && check_press())
@@ -525,7 +665,10 @@ void Game::run_game()
 	random_device rd;
 	mt19937 mt(rd());
 	uniform_int_distribution<int> dropGen(0, 100);
+	uniform_int_distribution<int> sizeGen(10, 20);
 	viewChanged = true;
+
+	tile* last_tile = &map[player.get_pos()[1]][player.get_pos()[0]];;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -588,7 +731,7 @@ void Game::run_game()
 			viewChanged = true;
 			continue;
 		}
-		else if (cur_tile->type_id == tile::tile_end)
+		else if (cur_tile->type_id == tile::tile_end && last_tile->type_id != tile::tile_end)
 		{
 			add_event("You have found the exit, press x to move to the next level");
 		}
@@ -603,10 +746,22 @@ void Game::run_game()
 			viewChanged = true;
 			show_stats();
 		}
+		else if (GetAsyncKeyState(0x33) & 0x8000 && check_press())
+		{
+			viewChanged = true;
+			show_help();
+		}
 		else if (GetAsyncKeyState(0x4C) && player.get_attr_points() > 0 && check_press())
 		{
 			viewChanged = true;
 			level_player();
+		}
+		else if (GetAsyncKeyState(0x58) & 0x8000 && cur_tile->type_id == tile::tile_end && check_press())
+		{
+			raw_map = Maze(sizeGen(mt), sizeGen(mt));
+			generate_map();
+			viewChanged = true;
+			depth++;
 		}
 
 		if (GetAsyncKeyState(0x57) & 0x8000 && check_press())
@@ -625,7 +780,8 @@ void Game::run_game()
 		{
 			move_player({ 1,0 });
 		}
-		if (viewChanged) { system("CLS"); debug_print_map(); viewChanged = false; };
+		last_tile = cur_tile;
+		if (viewChanged) { system("CLS"); print_map(); viewChanged = false; };
 		Sleep(1);
 	}
 }

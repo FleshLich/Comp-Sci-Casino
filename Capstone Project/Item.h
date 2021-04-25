@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// types are 1-5 one being lowest(common) 5 being highest(enigma)
+// types are 1-5 one being lowest(common) 5 being highest(enigma), -1 = random
 struct rarity_type
 {
 	int type;
@@ -64,6 +64,7 @@ public:
 	static const rarity_type rarity_r;
 	static const rarity_type rarity_l;
 	static const rarity_type rarity_e;
+	static const rarity_type rarity_rand;
 
 	static const item_type sword;
 	static const item_type bow;

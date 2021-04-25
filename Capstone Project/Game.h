@@ -10,6 +10,7 @@
 
 struct tile
 {
+	int id;
 	vector<int> pos;
 	Monster monster;
 	Item* treasure;
@@ -26,23 +27,29 @@ struct tile
 	static const int tile_heal = 6;
 	static const int tile_start = -1;
 	static const int tile_end = -2;
+
+	static int global_id_space;
+
+	bool operator==(tile);
 };
 
 class Game
 {
 public:
 	void generate_map();
-	Item* generate_item(int rarity = Item::rarity_n.type);
+	Item* generate_item(int rarity = Item::rarity_rand.type);
 	Monster generate_monster();
 
 	void parse_map();
 
 	void show_inventory();
 	void show_stats();
+	void show_help();
 
 	void view_item(int index, bool override_knowledge = false);
 	void equip_item(Item);
 
+	void print_map();
 	void debug_print_map();
 
 	void load_items();

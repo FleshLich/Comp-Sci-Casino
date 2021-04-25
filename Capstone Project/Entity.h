@@ -50,6 +50,7 @@ public:
 	void set_leech_mod(double);
 	void set_base_damage_mod(double);
 
+	// do X amount of damage to entity, this function takes into account all the stats
 	void do_damage(double);
 
 	// Stat and mod vector should be {health, strength, dexterity, evasion, fortitude, leech, base}
