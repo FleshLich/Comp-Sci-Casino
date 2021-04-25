@@ -9,6 +9,8 @@ typedef std::chrono::duration<int, std::milli> millisecs_t;
 
 int tile::global_id_space = 0;
 
+// TODO: WORK ON MONSTER DROP GENERATION, ADD ABILITY TO LOAD MONSTERS AND ITEMS
+
 bool tile::operator==(tile t)
 {
 	return this->id == t.id;
@@ -76,7 +78,7 @@ Monster Game::generate_monster()
 
 	Monster new_monster("Monster", 1);
 	new_monster.set_stats({ (double)healthGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt) });
-	// TODO: add monster difficulty generator to enhance item type
+	
 	int num_items = statGen(mt);
 	for (int i = 0; i < num_items; i++)
 	{
@@ -162,7 +164,6 @@ void Game::parse_map()
 	map = parsed_map;
 }
 
-// Fix inventory display, equip, and modifier bugs
 void Game::show_inventory()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -349,7 +350,7 @@ void Game::print_map()
 	CONSOLE_FONT_INFOEX cfi;
 	cfi.cbSize = sizeof(cfi);
 	cfi.nFont = 0;
-	cfi.dwFontSize.X = 0;                   // Width of each character in the font
+	cfi.dwFontSize.X = 0;                   
 	cfi.dwFontSize.Y = 24;                  // Height
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
@@ -675,7 +676,6 @@ void Game::run_game()
 		player.add_to_inventory(*generate_item());
 	}
 	add_event("Welcome... Check your inventory to see your starting items.");
-	// TODO: Fix super fast keyboard input
 	while (playing)
 	{
 		if (player.get_health() < 1) break;
