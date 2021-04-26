@@ -34,6 +34,20 @@ int Player::get_points_per_level() const
 	return points_per_level;
 }
 
+double Player::get_health()
+{
+	if (health > max_health)
+	{
+		health = max_health;
+	}
+	return health;
+}
+
+double Player::get_max_health() const
+{
+	return max_health + (get_health_mod() * 5);
+}
+
 vector<Item> Player::get_inventory() const
 {
 	return inventory;
@@ -95,7 +109,8 @@ void Player::set_pos(vector<int> p)
 
 void Player::add_stats(vector<double> v)
 {
-	health += v[0];
+	health += v[0] * 5;
+	max_health += v[0];
 	strength += v[1];
 	dexterity += v[2];
 	evasion += v[3];
@@ -124,5 +139,6 @@ void Player::remove_from_inventory(Item it)
 
 Player::Player(string n, int l, vector<double> stats, vector<double> mods) : Entity(n, l, stats, mods)
 {
+	max_health = stats[0];
 	equipped = {Item::empty_item, Item::empty_item, Item::empty_item, Item::empty_item};
 }

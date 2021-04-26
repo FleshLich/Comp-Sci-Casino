@@ -13,6 +13,9 @@ public:
 	int get_attr_points() const;
 	int get_points_per_level() const;
 
+	double get_health();
+	double get_max_health() const;
+
 	vector<Item> get_inventory() const;
 	vector<Item> get_equipped() const;
 
@@ -37,6 +40,7 @@ public:
 protected:
 	double xp = 0;
 	double max_xp = 25;
+	double max_health;
 
 	int knowledge = 1;
 	int attribute_points = 15;

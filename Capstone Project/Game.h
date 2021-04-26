@@ -8,6 +8,8 @@
 #include "Battle.h"
 #include "MazeGenerator.h"
 
+// TODO: ADD ABILITY TO LOAD MONSTERS AND ITEMS, FIX EXIT EVENT NOT SHOWING UP, DO QA WITH MAX HEALTH, ADD COMPARE FEATURE
+
 struct tile
 {
 	int id;
@@ -37,7 +39,7 @@ class Game
 {
 public:
 	void generate_map();
-	Item* generate_item(int rarity = Item::rarity_rand.type);
+	Item* generate_item(int rarity = Item::rarity_rand.type, item_type type = Item::rand_type);
 	Monster generate_monster();
 
 	void parse_map();
@@ -87,7 +89,7 @@ private:
 
 	Player player;
 
-	int depth;
+	int depth = 1;
 
 	vector<double> global_modifiers;
 	

@@ -40,6 +40,7 @@ const item_type Item::helmet{ "helmet" };
 const item_type Item::breastplate{ "breastplate" };
 const item_type Item::greaves{ "greaves" };
 const item_type Item::potion_set{ "potion set" };
+const item_type Item::rand_type{ "rand" };
 
 const vector<item_type> Item::all_types = { Item::sword, Item::bow, Item::helmet, Item::breastplate, Item::greaves, Item::potion_set };
 

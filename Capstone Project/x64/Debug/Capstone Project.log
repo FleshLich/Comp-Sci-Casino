@@ -1,18 +1,6 @@
-﻿  Game.cpp
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=int
-          ]
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(84,45): warning C4838: conversion from 'int' to 'double' requires a narrowing conversion
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(173,51): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(183,40): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(187,41): warning C4018: '<': signed/unsigned mismatch
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(410,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(459,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(499,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=int
-          ]
-  Capstone Project.vcxproj -> D:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+﻿  Battle.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Battle.cpp(41,53): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Player.cpp
+  Generating Code...
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Battle.cpp(63,62): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe

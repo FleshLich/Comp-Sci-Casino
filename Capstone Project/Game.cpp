@@ -9,8 +9,6 @@ typedef std::chrono::duration<int, std::milli> millisecs_t;
 
 int tile::global_id_space = 0;
 
-// TODO: WORK ON MONSTER DROP GENERATION, ADD ABILITY TO LOAD MONSTERS AND ITEMS
-
 bool tile::operator==(tile t)
 {
 	return this->id == t.id;
@@ -25,12 +23,12 @@ void Game::generate_map()
 	player.set_pos(map_start);
 }
 
-Item* Game::generate_item(int r)
+Item* Game::generate_item(int r, item_type it)
 {
 	random_device rd;
 	mt19937 mt(rd());
 	uniform_int_distribution<int> typeGen(0, Item::all_types.size() - 1);
-	uniform_int_distribution<int> statGen(0, 3);
+	uniform_int_distribution<int> statGen((0 + (depth - 1)) * depth, (2 + (depth - 1)) * depth);
 
 	if (r == -1)
 	{
@@ -59,8 +57,8 @@ Item* Game::generate_item(int r)
 		}
 	}
 
-	item_type temp_type = Item::all_types[typeGen(mt)];
-	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 2 : 0) });
+	item_type temp_type = (it == Item::rand_type) ? Item::all_types[typeGen(mt)] : it;
+	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 1 : 0) });
 	temp->set_knowledge_req(statGen(mt) * r);
 	temp->set_type(temp_type);
 	temp->set_rarity(rarity_type{r});
@@ -73,8 +71,9 @@ Monster Game::generate_monster()
 {
 	random_device rd;
 	mt19937 mt(rd());
-	uniform_int_distribution<int> healthGen(2, 10);
-	uniform_int_distribution<int> statGen(0, 3);
+	uniform_int_distribution<int> healthGen(10 * depth, 20 * depth);
+	uniform_int_distribution<int> statGen((0 + (depth - 1)) * depth, (3 + (depth - 1)) * depth);
+	uniform_int_distribution<int> dropGen(0, 100);
 
 	Monster new_monster("Monster", 1);
 	new_monster.set_stats({ (double)healthGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt) });
@@ -82,8 +81,32 @@ Monster Game::generate_monster()
 	int num_items = statGen(mt);
 	for (int i = 0; i < num_items; i++)
 	{
-		Item* new_item = generate_item(Item::rarity_n.type);
-		drop new_drop{new_item, (statGen(mt) + 1) * 25};
+		int num = dropGen(mt);
+		rarity_type m_rarity;
+
+		if (num < 50 - (10 * (depth - 1)))
+		{
+			m_rarity = Item::rarity_n;
+		}
+		else if (num < 80 - (5 * (depth - 1)))
+		{
+			m_rarity = Item::rarity_un;
+		}
+		else if (num < 90 - (3 * (depth - 1)))
+		{
+			m_rarity = Item::rarity_r;
+		}
+		else if (num < 95 - (2 * (depth - 1)))
+		{
+			m_rarity = Item::rarity_l;
+		}
+		else if (num <= 100 - (1 * (depth - 1)))
+		{
+			m_rarity = Item::rarity_e;
+		}
+
+		Item* new_item = generate_item(m_rarity.type);
+		drop new_drop{new_item, (statGen(mt) + 1) * (25 - (5 * (m_rarity.type - 1)))};
 		new_monster.add_to_drops(new_drop);
 	}
 
@@ -138,25 +161,23 @@ void Game::parse_map()
 			}
 
 			int num = tileGen(mt);
-			
-			if (num > 50 && num <= 80)
+			if (num < 65 - (10 * (depth - 1)))
+			{
+				new_tile.type_id = tile::tile_empty;
+			}
+			else if (num < 85 - (5 * (depth - 1)))
 			{
 				new_tile.monster = generate_monster();
 				new_tile.type_id = tile::tile_monster;
 			}
-			else if (num > 80 && num <= 95)
+			else if (num < 95 - (3 * (depth - 1)))
 			{
 				new_tile.treasure = generate_item();
 				new_tile.type_id = tile::tile_treasure;
 			}
-			else if (num > 95)
+			else if (num <= 100 - (2 * (depth - 1)))
 			{
-				new_tile.treasure = generate_item();
 				new_tile.type_id = tile::tile_heal;
-			}
-			else
-			{
-				new_tile.type_id = tile::tile_empty;
 			}
 			parsed_map[y].push_back(new_tile);
 		}
@@ -237,7 +258,7 @@ void Game::show_inventory()
 void Game::show_stats()
 {
 	system("CLS");
-	cout << "Health: " << player.get_health() << endl;
+	cout << "Health: " << player.get_health() << "/" << player.get_max_health() << endl;
 	cout << "Strength: " << player.get_strength() << endl;
 	cout << "Dexterity: " << player.get_dexterity() << endl;
 	cout << "Evasion: " << player.get_evasion() << endl;
@@ -576,7 +597,7 @@ void Game::level_player()
 
 			cout << "Press the corresponding key to level up that stat. Press C to refund your points\n";
 			cout << "You currently have " << cur_points << " points to spend\n";
-			cout << "1. Health: " << player.get_health() + new_stats[0] * 5 << "(+5 per point)\n";
+			cout << "1. Max Health: " << player.get_max_health() + new_stats[0] * 5 << "(+5 per point)\n";
 			cout << "2. Strength: " << player.get_strength() + new_stats[1] << endl;
 			cout << "3. Dexterity: " << player.get_dexterity() + new_stats[2] << endl;
 			cout << "4. Evasion: " << player.get_evasion() + new_stats[3] << endl;
@@ -671,9 +692,10 @@ void Game::run_game()
 
 	tile* last_tile = &map[player.get_pos()[1]][player.get_pos()[0]];;
 
-	for (int i = 0; i < 3; i++)
+	player.add_to_inventory(*generate_item(Item::rarity_n.type, Item::sword));
+	for (int i = 0; i < 2; i++)
 	{
-		player.add_to_inventory(*generate_item());
+		player.add_to_inventory(*generate_item(Item::rarity_n.type));
 	}
 	add_event("Welcome... Check your inventory to see your starting items.");
 	while (playing)

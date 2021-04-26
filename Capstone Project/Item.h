@@ -72,6 +72,7 @@ public:
 	static const item_type breastplate;
 	static const item_type greaves;
 	static const item_type potion_set;
+	static const item_type rand_type;
 
 	static const vector<item_type> all_types;
 
