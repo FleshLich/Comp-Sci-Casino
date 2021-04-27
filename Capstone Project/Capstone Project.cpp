@@ -23,12 +23,6 @@ using namespace std;
 // TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
 // TODO: Work out the kinks of file template and do some QA
 
-// TODO: Make sure pathfinding starting point and end point are actually possible to get to when they are user entered
-// TODO: Redo entire pathfinding module
-
-// TODO: Maybe make get random point node(returns regular x y) and get random point (returns x y offset by map), maybe make member variables that contain visited and unvisited nodes?
-
-// TODO: Create Game
 // TODO: Make DLL injector with a dll that simply creates a box saying hello and one that adds cheats to the game
 
 // TODO: Work on menu functionality
@@ -44,7 +38,7 @@ int main()
 	while (mainMenu)
 	{
 		system("CLS");
-		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations", "Generate a Maze" });
+		fileTemplate mainMenu("Menu Templates/Main Template.txt", { "Welcome to the Casino of computer science!", "Input a number to go to one of the categories below!", "Games", "Simulations", "Generate a Maze", "Play Dungeon Delver Game" });
 
 		Blackjack bGame(money, 10, 1);
 		game_of_life gGame;
