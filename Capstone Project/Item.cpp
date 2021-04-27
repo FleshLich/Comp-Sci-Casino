@@ -136,13 +136,17 @@ bool Item::operator==(Item i)
 	return this->id == i.get_id();
 }
 
-Item::Item(string n, string d, vector<double> mv)
+Item::Item(string n, string d, item_type i_type, rarity_type r_type, int k_req, vector<double> mv)
 {
 	id = Item::global_id_space;
 	Item::global_id_space++;
 
 	name = n;
 	description = d;
+
+	type = i_type;
+	rarity = r_type;
+	knowledge_req = k_req;
 
 	health_mod = mv[0];
 	strength_mod = mv[1];
@@ -151,6 +155,11 @@ Item::Item(string n, string d, vector<double> mv)
 	fortitude_mod = mv[4];
 	leech_mod = mv[5];
 	damage_mod = mv[6];
+
+	if (i_type.type == "sword" || i_type.type == "bow") equip_slot = 3;
+	else if (i_type.type == "breastplate" || i_type.type == "potion set") equip_slot = 1;
+	else if (i_type.type == "greaves") equip_slot = 2;
+	else if (i_type.type == "helmet") equip_slot = 0;
 }
 
 string Item::rarity_to_string(rarity_type r)

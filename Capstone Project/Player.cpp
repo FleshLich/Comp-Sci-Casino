@@ -36,9 +36,9 @@ int Player::get_points_per_level() const
 
 double Player::get_health()
 {
-	if (health > max_health)
+	if (health > get_max_health())
 	{
-		health = max_health;
+		health = get_max_health();
 	}
 	return health;
 }
@@ -109,8 +109,8 @@ void Player::set_pos(vector<int> p)
 
 void Player::add_stats(vector<double> v)
 {
-	health += v[0] * 5;
 	max_health += v[0];
+	health += v[0] * 5;
 	strength += v[1];
 	dexterity += v[2];
 	evasion += v[3];

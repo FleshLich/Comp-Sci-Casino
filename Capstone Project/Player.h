@@ -37,6 +37,8 @@ public:
 	void remove_from_inventory(Item);
 
 	Player(string n = "Player", int l = 1, vector<double> stats = { 20, 0, 0, 0, 0, 0, 0 }, vector<double> mods = { 0,0,0,0,0,0,0 });
+
+	static const int points_per_level = 5;
 protected:
 	double xp = 0;
 	double max_xp = 25;
@@ -44,7 +46,7 @@ protected:
 
 	int knowledge = 1;
 	int attribute_points = 15;
-	int points_per_level = 5;
+	
 	vector<Item> inventory;
 	// vector should be: helm, chest, legs, weapon
 	vector<Item> equipped;

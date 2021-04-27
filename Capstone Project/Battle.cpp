@@ -38,10 +38,10 @@ void Battle::do_player_attack(bool d)
 		cout << "Player did " << player_instance->get_damage() << " points of damage!" << endl;
 
 		cout << "\n";
-		for (int i = monster.entity_event_stack.size() - 1; i > -1; i--)
+		for (int i = player_instance->entity_event_stack.size() - 1; i > -1; i--)
 		{
-			cout << monster.entity_event_stack[i] << "\n\n";
-			monster.entity_event_stack.pop_back();
+			cout << player_instance->entity_event_stack[i] << "\n\n";
+			player_instance->entity_event_stack.pop_back();
 		}
 	} 
 }
@@ -60,10 +60,10 @@ void Battle::do_monster_attack(bool p)
 		cout << "Monster did " << monster.get_damage() << " points of damage!" << endl;
 
 		cout << "\n";
-		for (int i = player_instance->entity_event_stack.size() - 1; i > -1; i--)
+		for (int i = monster.entity_event_stack.size() - 1; i > -1; i--)
 		{
-			cout << player_instance->entity_event_stack[i] << "\n\n";
-			player_instance->entity_event_stack.pop_back();
+			cout << monster.entity_event_stack[i] << "\n\n";
+			monster.entity_event_stack.pop_back();
 		}
 	}
 	
@@ -78,9 +78,12 @@ void Battle::do_turn(bool p)
 		if (p) cout << "Player Health: " << player_instance->get_health() << endl;
 		if (p) cout << "Monster Health: " << monster.get_health() << endl;
 		do_player_attack(p);
+		if (monster.get_health() < 1)
+		{
+			break;
+		}
 		do_monster_attack(p);
 
-		if (monster.get_health() < 1) break;
 
 		if (p) cout << "\nPlayer has " << player_instance->get_health() << " hp.\nMonster has " << monster.get_health() << " hp.\n\n";
 		system("PAUSE");

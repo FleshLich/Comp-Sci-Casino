@@ -23,7 +23,7 @@ void Game::generate_map()
 	player.set_pos(map_start);
 }
 
-Item* Game::generate_item(int r, item_type it)
+Item* Game::generate_item(int r, item_type it, int k_req)
 {
 	random_device rd;
 	mt19937 mt(rd());
@@ -58,10 +58,8 @@ Item* Game::generate_item(int r, item_type it)
 	}
 
 	item_type temp_type = (it == Item::rand_type) ? Item::all_types[typeGen(mt)] : it;
-	Item* temp = new Item(temp_type.type, "An Item", { (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r, (double)statGen(mt) * r + ((temp_type == Item::sword || temp_type == Item::bow) ? 1 : 0) });
-	temp->set_knowledge_req(statGen(mt) * r);
-	temp->set_type(temp_type);
-	temp->set_rarity(rarity_type{r});
+	int k = (k_req > -1) ? k_req : (statGen(mt) * r);
+	Item* temp = new Item(temp_type.type, "An Item", temp_type, rarity_type{r}, k, { (double)statGen(mt)* r, (double)statGen(mt)* r, (double)statGen(mt)* r, (double)statGen(mt)* r, (double)statGen(mt)* r, (double)statGen(mt)* r, (double)statGen(mt)* r + ((temp_type == Item::sword || temp_type == Item::bow) ? 1 : 0) });
 
 	item_list.push_back(temp);
 	return temp;
@@ -75,7 +73,7 @@ Monster Game::generate_monster()
 	uniform_int_distribution<int> statGen((0 + (depth - 1)) * depth, (3 + (depth - 1)) * depth);
 	uniform_int_distribution<int> dropGen(0, 100);
 
-	Monster new_monster("Monster", 1);
+	Monster new_monster("Monster", depth);
 	new_monster.set_stats({ (double)healthGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt), (double)statGen(mt) });
 	
 	int num_items = statGen(mt);
@@ -266,6 +264,7 @@ void Game::show_stats()
 	cout << "Leech: " << player.get_leech() << endl;
 	cout << "Knowledge: " << player.get_knowledge() << endl;
 	cout << "Damage: " << player.get_damage() << endl;
+	cout << "\n\nExperience Points: " << player.get_xp() << "/" << player.get_max_xp() << "\n\n";
 	system("PAUSE");
 }
 
@@ -279,7 +278,7 @@ void Game::show_help()
 	SetConsoleTextAttribute(hConsole, 15 + 15 * 16);
 	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These tiles are walls that cannot be moved through." << endl;
 	SetConsoleTextAttribute(hConsole, 12 + 12 * 16);
-	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These are monster tiles. Upon entering, a battle will start so be prepared!" << endl;
+	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These are monster tiles. Upon entering, a battle will start, so be prepared!" << endl;
 	SetConsoleTextAttribute(hConsole, 9 + 9 * 16);
 	cout << " "; SetConsoleTextAttribute(hConsole, 15); cout << " = These tiles are treasure tiles. Entering one will give you a random piece of equipment." << endl;
 	SetConsoleTextAttribute(hConsole, 10 + 10 * 16); 
@@ -294,11 +293,13 @@ void Game::show_help()
 void Game::view_item(int i, bool override_knowledge)
 {
 	Item cur_item = player.get_inventory()[i];
+	Item compare_item = player.get_equipped()[cur_item.equip_slot];
 	if (cur_item.get_knowledge_req() > player.get_knowledge() && !override_knowledge) return;
 
 	system("CLS");
 	viewChanged = true;
 
+	bool comparing = false;
 	bool viewing = true;
 	while (viewing)
 	{
@@ -317,7 +318,24 @@ void Game::view_item(int i, bool override_knowledge)
 			cout << "Leech Mod: " << cur_item.get_leech_mod() << endl; 
 			if (cur_item.get_type() == Item::sword || cur_item.get_type() == Item::bow) cout << "Damage: " << cur_item.get_damage_mod() << endl;
 
+			if (comparing && compare_item.get_type().type != "rand")
+			{
+				cout << "\nItem Name: " << compare_item.get_name() << endl;
+				cout << "Item Description: " << compare_item.get_desc() << endl;
+				cout << "Item Type: " << compare_item.get_type() << endl;
+				cout << "Item Rarity: " << Item::rarity_to_string(compare_item.get_rarity()) << endl;
+				cout << "Health Mod: " << compare_item.get_health_mod() * 5 << endl;
+				cout << "Strength Mod: " << compare_item.get_strength_mod() << endl;
+				cout << "Dexterity Mod: " << compare_item.get_dex_mod() << endl;
+				cout << "Evasion Mod: " << compare_item.get_evasion_mod() << endl;
+				cout << "Fortitude Mod: " << compare_item.get_fortitude_mod() << endl;
+				cout << "Leech Mod: " << compare_item.get_leech_mod() << endl;
+				if (compare_item.get_type() == Item::sword || compare_item.get_type() == Item::bow) cout << "Damage: " << compare_item.get_damage_mod() << endl;
+			}
+			else if (comparing) cout << "\nThat item slot is currently empty\n";
+
 			cout << "\nPress 1 to equip this item";
+			cout << "\nPress 2 start/stop comparing this item with your currently equipped item";
 			cout << "\nPress x to return";
 
 			viewChanged = false;
@@ -327,6 +345,11 @@ void Game::view_item(int i, bool override_knowledge)
 			equip_item(cur_item);
 			viewChanged = true;
 			viewing = false;
+		}
+		else if (GetKeyState(0x32) & 0x8000 && check_press())
+		{
+			comparing = (comparing) ? 0 : 1;
+			viewChanged = true;
 		}
 		if (GetKeyState(0x58) & 0x8000 && check_press())
 		{
@@ -429,12 +452,17 @@ void Game::print_map()
 	}
 	SetConsoleTextAttribute(hConsole, 15);
 	cout << endl;
-	for (int i = event_stack.size() - 1; i > -1; i--)
+	if (!event_stack.empty())
 	{
-		cout << event_stack[i] << endl;
-		event_stack.pop_back();
+		cout << "\n********** EVENTS **********\n\n";
+		for (int i = event_stack.size() - 1; i > -1; i--)
+		{
+			cout << event_stack[i] << "\n\n";
+			event_stack.pop_back();
+		}
+		cout << "********** EVENTS **********\n";
 	}
-	// Prettify this
+	
 	cout << "Press 1 to view Inventory\n";
 	cout << "Press 2 to view Stats\n";
 	cout << "Press 3 to view Help\n";
@@ -692,8 +720,8 @@ void Game::run_game()
 
 	tile* last_tile = &map[player.get_pos()[1]][player.get_pos()[0]];;
 
-	player.add_to_inventory(*generate_item(Item::rarity_n.type, Item::sword));
-	for (int i = 0; i < 2; i++)
+	player.add_to_inventory(*generate_item(Item::rarity_n.type, Item::sword, 1));
+	for (int i = 0; i < 2; i++) 
 	{
 		player.add_to_inventory(*generate_item(Item::rarity_n.type));
 	}
@@ -706,7 +734,7 @@ void Game::run_game()
 		if (player.get_xp() >= player.get_max_xp())
 		{
 			player.set_level(player.get_level() + 1);
-			player.set_attr_points(3);
+			player.set_attr_points(Player::points_per_level);
 			player.set_max_xp(player.get_max_xp() * 3);
 		}
 		if (cur_battle.get_status())
@@ -714,6 +742,8 @@ void Game::run_game()
 			system("CLS");
 			cur_battle.do_turn(1);
 			cur_battle = Battle(&player, get_random_monster());
+			
+			player.set_xp(player.get_xp() + (depth * 5));
 			for (int i = 0; i < cur_battle.get_monster().get_drop_table().size(); i++)
 			{
 				drop cur_drop = cur_battle.get_monster().get_drop_table()[i];

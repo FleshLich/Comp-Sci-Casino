@@ -52,7 +52,9 @@ public:
 
 	bool operator==(Item);
 
-	Item(string name = "", string desc = "", vector<double> modifier_vector = {0,0,0,0,0,0,0});
+	int equip_slot;
+
+	Item(string name = "", string desc = "", item_type type = Item::rand_type, rarity_type r_type = Item::rarity_rand, int knowledge_req = -1, vector<double> modifier_vector = {0,0,0,0,0,0,0});
 
 	// converts rarity type to string 
 	static string rarity_to_string(rarity_type);
