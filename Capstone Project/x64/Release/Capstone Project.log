@@ -1,0 +1,59 @@
+﻿  AStar.cpp
+  Battle.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\AStar.cpp(79,78): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Battle.cpp(41,62): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Blackjack.cpp
+  Capstone Project.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Battle.cpp(63,53): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091:  'extern ': ignored on left of 'cell' when no variable is declared
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+  CasinoGame_Imp.cpp
+  Entity.cpp
+  fileTemplate_Imp.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091:  'extern ': ignored on left of 'cell' when no variable is declared
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+  Game.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267:         with
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267:         [
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267:             _Ty=int
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267:         ]
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(107,45): warning C4838:  conversion from 'int' to 'double' requires a narrowing conversion
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(193,51): warning C4267:  'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(203,40): warning C4267:  '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(207,41): warning C4018:  '<': signed/unsigned mismatch
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(458,38): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(509,37): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+  GameOfLife_Imp.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(549,64): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(549,64): warning C4267:         with
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(549,64): warning C4267:         [
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(549,64): warning C4267:             _Ty=int
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Game.cpp(549,64): warning C4267:         ]
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091:  'extern ': ignored on left of 'cell' when no variable is declared
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(96,30): warning C4267:  'return': conversion from 'size_t' to 'int', possible loss of data
+  Item.cpp
+  MazeGenerator.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(60,6): warning C4101:  'next_y': unreferenced local variable
+  Monster.cpp
+  Player.cpp
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:  'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         with
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         [
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:             _Ty=int
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267:         ]
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\CasinoGame_Imp.cpp(34): warning C4715: 'casino_game::get_return': not all control paths return a value
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Item.cpp(187): warning C4715: 'Item::rarity_to_string': not all control paths return a value
+E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\Blackjack.cpp(152): warning C4715: 'Blackjack::stand': not all control paths return a value
+  All 2048 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Release\Capstone Project.exe
