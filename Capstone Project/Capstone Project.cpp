@@ -20,12 +20,6 @@ using namespace std;
 
 
 
-// TODO: Implement File Template replacer that removes whitespace and instead replaces it with variable so as to not mess up left and right text
-// TODO: Work out the kinks of file template and do some QA
-
-// Start procedural generation
-
-// TODO: Work on menu functionality
 int main()
 {
 	bool mainMenu = true;

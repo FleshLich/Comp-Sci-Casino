@@ -1,6 +1,56 @@
-﻿  Capstone Project.cpp
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091:  'extern ': ignored on left of 'cell' when no variable is declared
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
-E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267:  '=': conversion from 'size_t' to 'int', possible loss of data
-  Capstone Project.vcxproj -> E:\!PROGRAMMING PROJECTS\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
+﻿  AStar.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\AStar.cpp(79,78): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Battle.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Battle.cpp(41,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Battle.cpp(63,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Blackjack.cpp
+  Capstone Project.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091: 'extern ': ignored on left of 'cell' when no variable is declared
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  CasinoGame_Imp.cpp
+  Entity.cpp
+  fileTemplate_Imp.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091: 'extern ': ignored on left of 'cell' when no variable is declared
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Game.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(30,70): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(107,45): warning C4838: conversion from 'int' to 'double' requires a narrowing conversion
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(193,51): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(203,40): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(207,41): warning C4018: '<': signed/unsigned mismatch
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(458,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(509,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Game.cpp(549,64): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+  GameOfLife_Imp.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(11,19): warning C4091: 'extern ': ignored on left of 'cell' when no variable is declared
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(70,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(74,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\String Utilities.h(75,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(96,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\GameOfLife_Imp.cpp(60,6): warning C4101: 'next_y': unreferenced local variable
+  Item.cpp
+  MazeGenerator.cpp
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\MazeGenerator.cpp(72,94): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+  Monster.cpp
+  Player.cpp
+  Generating Code...
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Item.cpp(187): warning C4715: 'Item::rarity_to_string': not all control paths return a value
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\CasinoGame_Imp.cpp(34): warning C4715: 'casino_game::get_return': not all control paths return a value
+D:\Misc Programming Projects\Comp-Sci-Casino\Capstone Project\Blackjack.cpp(152): warning C4715: 'Blackjack::stand': not all control paths return a value
+  Capstone Project.vcxproj -> D:\Misc Programming Projects\Comp-Sci-Casino\x64\Debug\Capstone Project.exe
