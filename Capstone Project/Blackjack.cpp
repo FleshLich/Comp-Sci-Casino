@@ -126,9 +126,8 @@ bool Blackjack::hit()
 	return (get_total(playerHand) > 21) ? 1 : 0;
 }
 
-bool Blackjack::stand()
+int Blackjack::stand()
 {
-	// TODO: Make friend function to handle ai so this function is not as long
 	stood = true;
 	switch (get_difficulty())
 	{
@@ -139,6 +138,7 @@ bool Blackjack::stand()
 		}
 		if (get_total(houseHand) >= 17 && get_total(houseHand) <= 21)
 		{
+			if (get_total(houseHand) == get_total(playerHand)) return 2;
 			return (get_total(houseHand) < get_total(playerHand));
 		}
 		else 

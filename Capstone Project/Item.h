@@ -8,7 +8,8 @@ using namespace std;
 struct rarity_type
 {
 	int type;
-
+	
+	// ************* OPERATOR OVERLOADING *************
 	bool operator==(rarity_type);
 
 	friend ostream& operator<<(ostream&, const rarity_type&);
@@ -19,6 +20,7 @@ struct item_type
 {
 	string type;
 
+	// ************* OPERATOR OVERLOADING *************
 	bool operator==(item_type);
 
 	friend ostream& operator<<(ostream&, const item_type&);

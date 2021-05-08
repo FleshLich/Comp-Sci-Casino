@@ -8,6 +8,12 @@ struct drop
 	double chance;
 };
 
+//************************
+
+//**** Inheritance ******
+
+//***********************
+
 class Monster : public Entity
 {
 public:

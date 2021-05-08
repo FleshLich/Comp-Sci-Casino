@@ -39,6 +39,7 @@ class Game
 {
 public:
 	void generate_map();
+	// *************** POINTERS ***************
 	// Generates a random item based on depth, -1 for knowledge req means random
 	Item* generate_item(int rarity = Item::rarity_rand.type, item_type type = Item::rand_type, int knowledge_req = -1);
 	Monster generate_monster();
@@ -81,6 +82,8 @@ public:
 	void run_game();
 
 	Game();
+	// *************** DESTRUCTOR ***************
+	~Game(); 
 private:
 	Maze raw_map;
 	vector<vector<tile>> map;

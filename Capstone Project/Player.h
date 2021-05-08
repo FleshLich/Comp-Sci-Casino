@@ -2,6 +2,12 @@
 #include "Entity.h"
 #include "Item.h"
 
+//************************
+
+//**** Inheritance ******
+
+//***********************
+
 class Player : public Entity
 {
 public:

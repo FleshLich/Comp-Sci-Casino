@@ -844,6 +844,20 @@ Game::Game()
 	generate_map();
 }
 
+//************************
+
+//**** DESTRUCTOR ******
+
+//***********************
+
+Game::~Game() 
+{
+	for (int i = 0; i < item_list.size(); i++)
+	{
+		delete item_list[i];
+	}
+}
+
 bool Game::check_press()
 {
 	millisecs_t duration(std::chrono::duration_cast<millisecs_t>(chrono::steady_clock::now() - keyPressed));

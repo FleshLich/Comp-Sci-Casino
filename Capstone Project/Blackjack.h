@@ -38,8 +38,8 @@ public:
 	bool hit();
 
 	// Makes the player stand, the house will draw cards until they stop due to difficulty or busting
-	// Returns 1 if the player won the game, 0 if the player lost
-	bool stand();
+	// Returns 1 if the player won the game, 0 if the player lost, 2 for draw
+	int stand();
 
 	Blackjack(double m = 0, double b = 0, int difficulty = 1);
 private:

@@ -1,6 +1,6 @@
 // Assignment: Capstone Project
 // Created by Joshua Roberts
-// Date:
+// Date: 6/8/2021
 
 // https://stackoverflow.com/questions/7035023/stdmax-expected-an-identifier/7035078
 #define NOMINMAX
@@ -9,6 +9,8 @@
 #include <string>
 #include <cstdlib>
 #include <Windows.h>
+
+// *********** CLASSES ***********
 #include "safe_input.h"
 #include "Blackjack.h"
 #include "GameOfLife.h"
@@ -59,6 +61,7 @@ int main()
 			system("CLS");
 
 			cout << "Note that your maze size will be rounded to make sure it is properly generated." << endl;
+			cout << "Warning: Using numbers that are too large(~>100) may break the program due to the nature of the algorithm" << endl;
 			cout << "Enter width of maze: ";
 			safe_input<int>(&width);
 			cout << "\nEnter height of maze: ";
@@ -104,7 +107,7 @@ int main()
 				break;
 			case 2:
 			{
-				bool stand = bGame.stand();
+				int stand = bGame.stand();
 				int index = 1;
 
 				while (index < bGame.get_houseHand().size() - 1)
@@ -113,10 +116,14 @@ int main()
 					index++;
 					system("PAUSE");
 				}
-				if (stand)
+				if (stand == 1)
 				{
 					cout << "\nYou win!\n\n";
 					money += bGame.get_return();
+				}
+				else if (stand == 2)
+				{
+					cout << "\nIt was a draw\n";
 				}
 				else
 				{
