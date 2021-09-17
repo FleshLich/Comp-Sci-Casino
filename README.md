@@ -1,1 +1,1 @@
-Computer Science Course capstone project
+Finished computer science course capstone project
